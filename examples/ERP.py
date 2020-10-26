@@ -138,8 +138,11 @@ X_validate   = X_validate.reshape(X_validate.shape[0], kernels, chans, samples)
 X_test       = X_test.reshape(X_test.shape[0], kernels, chans, samples)
    
 print('X_train shape:', X_train.shape)
+print('X_testshape:', X_test.shape)
 print(X_train.shape[0], 'train samples')
 print(X_test.shape[0], 'test samples')
+
+print("chans:", chans, "samples:", samples)
 
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
