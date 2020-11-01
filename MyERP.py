@@ -121,8 +121,8 @@ trials, samples, chans, kernels = data.shape[0], data.shape[1], data.shape[2], 1
 
 X = X.reshape(chans, kernels, trials, samples)
 
-half = trials/2
-threeQuarters = (trials/4) * 3
+half = trials//2
+threeQuarters = (trials//4) * 3
 
 # take 50/25/25 percent of the data to train/validate/test
 X_train      = X[0:half,]
