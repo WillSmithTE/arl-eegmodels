@@ -154,7 +154,7 @@ print("chans:", chans, "samples:", samples)
 
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
-model = EEGNet(nb_classes = 2, Chans = chans, Samples = samples, 
+model = EEGNet(nb_classes = 1, Chans = chans, Samples = samples, 
                dropoutRate = 0.5, kernLength = 32, F1 = 8, D = 2, F2 = 16, 
                dropoutType = 'Dropout')
 
