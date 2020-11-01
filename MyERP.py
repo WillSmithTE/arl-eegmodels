@@ -188,7 +188,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 20, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 200, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
