@@ -3,6 +3,5 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pieChart import pieChart
 
-labels = getDataAndLabels()[1]
+[data, labels] = getDataAndLabels()
 pieChart(labels)
-
