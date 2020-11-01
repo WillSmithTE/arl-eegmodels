@@ -135,9 +135,9 @@ Y_test       = y[threeQuarters:]
 ############################# EEGNet portion ##################################
 
 # convert labels to one-hot encodings.
-# Y_train      = np_utils.to_categorical(Y_train-1)
-# Y_validate   = np_utils.to_categorical(Y_validate-1)
-# Y_test       = np_utils.to_categorical(Y_test-1)
+Y_train      = np_utils.to_categorical(Y_train-1)
+Y_validate   = np_utils.to_categorical(Y_validate-1)
+Y_test       = np_utils.to_categorical(Y_test-1)
 
 # convert data to NCHW (trials, kernels, channels, samples) format. Data 
 # contains 60 channels and 151 time-points. Set the number of kernels to 1.
