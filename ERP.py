@@ -66,6 +66,11 @@
 
 import numpy as np
 
+# tools for plotting confusion matrices
+import matplotlib.pyplot as plt
+plt.switch_backend('agg')
+
+
 # mne imports
 import mne
 from mne import io
@@ -82,10 +87,6 @@ from pyriemann.tangentspace import TangentSpace
 from pyriemann.utils.viz import plot_confusion_matrix
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
-
-# tools for plotting confusion matrices
-from matplotlib import pyplot as plt
-
 
 ##################### Process, filter and epoch the data ######################
 data_path = sample.data_path()
@@ -131,6 +132,9 @@ Y_train      = np_utils.to_categorical(Y_train-1)
 Y_validate   = np_utils.to_categorical(Y_validate-1)
 Y_test       = np_utils.to_categorical(Y_test-1)
 
+print('X_train shape:', X_train.shape)
+print('X_testshape:', X_test.shape)
+
 # convert data to NCHW (trials, kernels, channels, samples) format. Data 
 # contains 60 channels and 151 time-points. Set the number of kernels to 1.
 X_train      = X_train.reshape(X_train.shape[0], kernels, chans, samples)
@@ -138,8 +142,12 @@ X_validate   = X_validate.reshape(X_validate.shape[0], kernels, chans, samples)
 X_test       = X_test.reshape(X_test.shape[0], kernels, chans, samples)
    
 print('X_train shape:', X_train.shape)
+print('X_testshape:', X_test.shape)
+
 print(X_train.shape[0], 'train samples')
 print(X_test.shape[0], 'test samples')
+
+print("chans:", chans, "samples:", samples)
 
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
@@ -174,7 +182,7 @@ class_weights = {0:1, 1:1, 2:1, 3:1}
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 300, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 3000, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
@@ -234,6 +242,8 @@ plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,
 
 plt.figure(1)
 plot_confusion_matrix(preds_rg, Y_test.argmax(axis = -1), names, title = 'xDAWN + RG')
+
+plt.savefig('plot')
 
 
 

@@ -1,0 +1,14 @@
+name: arl
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.6
+  - tensorflow-gpu==1.12.0
+  - matplotlib==2.2.3
+  - scikit-learn==0.20.1
+  - seaborn
+  - joblib
+prefix: /home/wtsmith/anaconda3/envs/arl
+
