@@ -117,12 +117,12 @@ labels = epochs.events[:, -1]
 X = data*1000 # format is in (channels, samples, trials)
 y = labels
 
-# kernels, chans, samples = 1, x.shape[0], x.shape[1]
+trials, samples, chans, kernels = data.shape[0], data.shape[1], data.shape[2], 1
 
-X = X.reshape(data.shape[2], 1, data.shape[0], data.shape[1])
+X = X.reshape(chans, kernels, trials, samples)
 
-half = samples/2
-threeQuarters = (samples/4) * 3
+half = trials/2
+threeQuarters = (trials/4) * 3
 
 # take 50/25/25 percent of the data to train/validate/test
 X_train      = X[0:half,]
