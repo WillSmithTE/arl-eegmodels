@@ -191,7 +191,7 @@ fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 300,
                         callbacks=[checkpointer], class_weight = class_weights)
 
 # load optimal weights
-model.load_weights('/tmp/checkpoint.h5')
+# model.load_weights('/tmp/checkpoint.h5')
 
 ###############################################################################
 # can alternatively used the weights provided in the repo. If so it should get
