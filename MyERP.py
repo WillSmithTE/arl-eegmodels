@@ -179,7 +179,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # the syntax is {class_1:weight_1, class_2:weight_2,...}. Here just setting
 # the weights all to be 1
 # class_weights = {0:1, 1:1, 2:1, 3:1}
-class_weights = {0:1, 1:1}
+class_weights = {0:7, 1:93}
 
 ################################################################################
 # fit the model. Due to very small sample sizes this can get
