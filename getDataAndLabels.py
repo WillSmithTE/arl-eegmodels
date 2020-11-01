@@ -27,8 +27,6 @@ def getMatFile(dir, index, dataOrLabels):
 
 def doStuff(dir, index, data, labels):
     print('reading file ', dir, index)
-    printThing(getLabels(dir, index))
-    printThing(getData(dir, index))
     if labels is None:
         labels = getLabels(dir, index)
     else:
