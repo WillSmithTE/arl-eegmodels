@@ -135,9 +135,9 @@ Y_test       = y[threeQuarters:]
 ############################# EEGNet portion ##################################
 
 # convert labels to one-hot encodings.
-Y_train      = np_utils.to_categorical(Y_train-1)
-Y_validate   = np_utils.to_categorical(Y_validate-1)
-Y_test       = np_utils.to_categorical(Y_test-1)
+# Y_train      = np_utils.to_categorical(Y_train-1)
+# Y_validate   = np_utils.to_categorical(Y_validate-1)
+# Y_test       = np_utils.to_categorical(Y_test-1)
 
 # convert data to NCHW (trials, kernels, channels, samples) format. Data 
 # contains 60 channels and 151 time-points. Set the number of kernels to 1.
@@ -154,7 +154,7 @@ print("chans:", chans, "samples:", samples)
 
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
-model = EEGNet(nb_classes = 4, Chans = chans, Samples = samples, 
+model = EEGNet(nb_classes = 2, Chans = chans, Samples = samples, 
                dropoutRate = 0.5, kernLength = 32, F1 = 8, D = 2, F2 = 16, 
                dropoutType = 'Dropout')
 
