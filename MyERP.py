@@ -119,7 +119,7 @@ y = labels
 
 chans, samples, trials, kernels = data.shape[0], data.shape[1], data.shape[2], 1
 
-X = X.reshape(chans, kernels, trials, samples)
+X = X.reshape(trials, kernels, chans, samples)
 
 half = trials//2
 threeQuarters = (trials//4) * 3
