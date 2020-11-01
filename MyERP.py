@@ -117,7 +117,7 @@ labels = epochs.events[:, -1]
 X = data*1000 # format is in (channels, samples, trials)
 y = labels
 
-trials, samples, chans, kernels = data.shape[0], data.shape[1], data.shape[2], 1
+chans, samples, trials, kernels = data.shape[0], data.shape[1], data.shape[2], 1
 
 X = X.reshape(chans, kernels, trials, samples)
 
