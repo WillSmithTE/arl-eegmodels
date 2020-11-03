@@ -85,7 +85,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.utils import class_weight
 
 # tools for plotting confusion matrices
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
+plt.switch_backend('agg')
+
 
 # MINE
 from getDataAndLabels import getDataAndLabels
@@ -249,5 +251,4 @@ plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,
 plt.figure(1)
 plot_confusion_matrix(preds_rg, Y_test.argmax(axis = -1), names, title = 'xDAWN + RG')
 
-
-
+plt.savefig('plot')
