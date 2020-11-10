@@ -88,6 +88,8 @@ from sklearn.utils import class_weight
 import matplotlib.pyplot as plt
 plt.switch_backend('agg')
 
+from util import read, save
+
 
 # MINE
 from getDataAndLabels import getDataAndLabels
@@ -226,6 +228,10 @@ print('preds', preds)
 
 roc_auc_score = roc_auc_score(y_test, preds)
 print('roc_auc_score', roc_auc_score)
+
+save(y_test, 'y_test')
+save(Y_test, 'Y_test')
+save(preds, 'preds')
 
 ############################# PyRiemann Portion ##############################
 
