@@ -190,7 +190,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 40, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 200, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
@@ -244,7 +244,7 @@ acc2         = np.mean(preds_rg == Y_test.argmax(axis = -1))
 print("Classification accuracy: %f " % (acc2))
 
 # plot the confusion matrices for both classifiers
-names        = ['name1', 'name2']
+names        = ['1', '2']
 plt.figure(0)
 plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,2')
 
