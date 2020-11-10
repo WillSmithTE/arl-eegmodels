@@ -126,8 +126,8 @@ chans, samples, trials, kernels = data.shape[0], data.shape[1], data.shape[2], 1
 
 X = X.reshape(trials, kernels, chans, samples)
 
-half = trials//2
-threeQuarters = (trials//4) * 3
+half = (trials//8)*6
+threeQuarters = (trials//8) * 7
 
 # take 50/25/25 percent of the data to train/validate/test
 X_train      = X[0:half,]
@@ -193,7 +193,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 1, epochs = 1000, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 1, epochs = 10, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
