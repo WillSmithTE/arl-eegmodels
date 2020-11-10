@@ -193,7 +193,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 50, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 1, epochs = 50, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
@@ -227,10 +227,6 @@ print('preds', preds)
 
 roc_auc_score = roc_auc_score(y_test, preds)
 print('roc_auc_score', roc_auc_score)
-
-save(y_test, 'y_test')
-save(Y_test, 'Y_test')
-save(preds, 'preds')
 
 ############################# PyRiemann Portion ##############################
 
