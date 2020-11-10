@@ -129,11 +129,11 @@ threeQuarters = (trials//4) * 3
 
 # take 50/25/25 percent of the data to train/validate/test
 X_train      = X[0:half,]
-Y_train      = y[0:half]
+y_train      = y[0:half]
 X_validate   = X[half:threeQuarters,]
-Y_validate   = y[half:threeQuarters]
+y_validate   = y[half:threeQuarters]
 X_test       = X[threeQuarters:,]
-Y_test       = y[threeQuarters:]
+y_test       = y[threeQuarters:]
 
 ############################# EEGNet portion ##################################
 
@@ -141,14 +141,14 @@ Y_test       = y[threeQuarters:]
 # the syntax is {class_1:weight_1, class_2:weight_2,...}. Here just setting
 # the weights all to be 1
 # class_weights = {0:1, 1:1, 2:1, 3:1}
-#class_weights = dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(Y_train), Y_train)))
+#class_weights = dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(y_train), y_train)))
 class_weights = {0:1, 1:1}
 
 print('class_weights', class_weights)
 # convert labels to one-hot encodings.
-Y_train      = np_utils.to_categorical(Y_train-1)
-Y_validate   = np_utils.to_categorical(Y_validate-1)
-Y_test       = np_utils.to_categorical(Y_test-1)
+Y_train      = np_utils.to_categorical(y_train-1)
+Y_validate   = np_utils.to_categorical(y_validate-1)
+Y_test       = np_utils.to_categorical(y_test-1)
 
 # convert data to NCHW (trials, kernels, channels, samples) format. Data 
 # contains 60 channels and 151 time-points. Set the number of kernels to 1.
@@ -220,9 +220,11 @@ print("Classification accuracy: %f " % (acc))
 from sklearn.metrics import roc_auc_score
 
 print('Y_test', Y_test)
+print('y_test', y_test)
+print('Y_test.argmax(axis=-1)', Y_test.argmax(axis=-1))
 print('preds', preds)
 
-roc_auc_score = roc_auc_score(Y_test, preds)
+roc_auc_score = roc_auc_score(y_test, preds)
 print('roc_auc_score', roc_auc_score)
 
 ############################# PyRiemann Portion ##############################
