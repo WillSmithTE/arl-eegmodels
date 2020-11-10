@@ -143,6 +143,7 @@ Y_test       = y[threeQuarters:]
 # class_weights = {0:1, 1:1, 2:1, 3:1}
 class_weights = dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(Y_train), Y_train)))
 
+print('class_weights', class_weights)
 # convert labels to one-hot encodings.
 Y_train      = np_utils.to_categorical(Y_train-1)
 Y_validate   = np_utils.to_categorical(Y_validate-1)
