@@ -219,6 +219,9 @@ print("Classification accuracy: %f " % (acc))
 
 from sklearn.metrics import roc_auc_score
 
+print('Y_test', Y_test)
+print('preds', preds)
+
 roc_auc_score = roc_auc_score(Y_test, preds)
 print('roc_auc_score', roc_auc_score)
 
