@@ -244,7 +244,7 @@ acc2         = np.mean(preds_rg == Y_test.argmax(axis = -1))
 print("Classification accuracy: %f " % (acc2))
 
 # plot the confusion matrices for both classifiers
-names        = ['audio left', 'audio right', 'vis left', 'vis right']
+names        = ['name1', 'name2']
 plt.figure(0)
 plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,2')
 
