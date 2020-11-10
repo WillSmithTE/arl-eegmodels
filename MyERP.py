@@ -144,7 +144,8 @@ y_test       = y[threeQuarters:]
 # the weights all to be 1
 # class_weights = {0:1, 1:1, 2:1, 3:1}
 #class_weights = dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(y_train), y_train)))
-class_weights = {0:1, 1:1}
+class_weights = {1:6, 2:94}
+# class_weights = {0:1, 1:1}
 
 print('class_weights', class_weights)
 # convert labels to one-hot encodings.
@@ -194,7 +195,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 10, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 50, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
