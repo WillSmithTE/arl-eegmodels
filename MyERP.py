@@ -94,29 +94,6 @@ from util import read, save
 # MINE
 from getDataAndLabels import getDataAndLabels
 
-##################### Process, filter and epoch the data ######################
-data_path = sample.data_path()
-
-# Set parameters and read data
-raw_fname = data_path + '/MEG/sample/sample_audvis_filt-0-40_raw.fif'
-event_fname = data_path + '/MEG/sample/sample_audvis_filt-0-40_raw-eve.fif'
-tmin, tmax = -0., 1
-event_id = dict(aud_l=1, aud_r=2, vis_l=3, vis_r=4)
-
-# Setup for reading the raw data
-raw = io.Raw(raw_fname, preload=True, verbose=False)
-raw.filter(2, None, method='iir')  # replace baselining with high-pass
-events = mne.read_events(event_fname)
-
-raw.info['bads'] = ['MEG 2443']  # set bad channels
-picks = mne.pick_types(raw.info, meg=False, eeg=True, stim=False, eog=False,
-                       exclude='bads')
-
-# Read epochs
-epochs = mne.Epochs(raw, events, event_id, tmin, tmax, proj=False,
-                    picks=picks, baseline=None, preload=True, verbose=False)
-labels = epochs.events[:, -1]
-
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
 X = data*1000 # format is in (channels, samples, trials)
@@ -223,33 +200,6 @@ from sklearn.metrics import roc_auc_score
 roc_auc_score = roc_auc_score(y_test, preds)
 print('roc_auc_score', roc_auc_score)
 
-############################# PyRiemann Portion ##############################
-
-# code is taken from PyRiemann's ERP sample script, which is decoding in 
-# the tangent space with a logistic regression
-
-# n_components = 2  # pick some components
-
-# # set up sklearn pipeline
-# clf = make_pipeline(XdawnCovariances(n_components),
-#                     TangentSpace(metric='riemann'),
-#                     LogisticRegression())
-
-# preds_rg     = np.zeros(len(Y_test))
-
-# # reshape back to (trials, channels, samples)
-# X_train      = X_train.reshape(X_train.shape[0], chans, samples)
-# X_test       = X_test.reshape(X_test.shape[0], chans, samples)
-
-# # train a classifier with xDAWN spatial filtering + Riemannian Geometry (RG)
-# # labels need to be back in single-column format
-# clf.fit(X_train, Y_train.argmax(axis = -1))
-# preds_rg     = clf.predict(X_test)
-
-# # Printing the results
-# acc2         = np.mean(preds_rg == Y_test.argmax(axis = -1))
-# print("Classification accuracy: %f " % (acc2))
-
 # plot the confusion matrices for both classifiers
 names        = ['1', '2']
 plt.figure(0)
@@ -257,7 +207,3 @@ plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,
 
 plt.savefig('plot-EEG')
 
-# plt.figure(1)
-# plot_confusion_matrix(preds_rg, Y_test.argmax(axis = -1), names, title = 'xDAWN + RG')
-
-# plt.savefig('plot-xDawn')
