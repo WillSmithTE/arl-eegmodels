@@ -228,27 +228,27 @@ print('roc_auc_score', roc_auc_score)
 # code is taken from PyRiemann's ERP sample script, which is decoding in 
 # the tangent space with a logistic regression
 
-n_components = 2  # pick some components
+# n_components = 2  # pick some components
 
-# set up sklearn pipeline
-clf = make_pipeline(XdawnCovariances(n_components),
-                    TangentSpace(metric='riemann'),
-                    LogisticRegression())
+# # set up sklearn pipeline
+# clf = make_pipeline(XdawnCovariances(n_components),
+#                     TangentSpace(metric='riemann'),
+#                     LogisticRegression())
 
-preds_rg     = np.zeros(len(Y_test))
+# preds_rg     = np.zeros(len(Y_test))
 
-# reshape back to (trials, channels, samples)
-X_train      = X_train.reshape(X_train.shape[0], chans, samples)
-X_test       = X_test.reshape(X_test.shape[0], chans, samples)
+# # reshape back to (trials, channels, samples)
+# X_train      = X_train.reshape(X_train.shape[0], chans, samples)
+# X_test       = X_test.reshape(X_test.shape[0], chans, samples)
 
-# train a classifier with xDAWN spatial filtering + Riemannian Geometry (RG)
-# labels need to be back in single-column format
-clf.fit(X_train, Y_train.argmax(axis = -1))
-preds_rg     = clf.predict(X_test)
+# # train a classifier with xDAWN spatial filtering + Riemannian Geometry (RG)
+# # labels need to be back in single-column format
+# clf.fit(X_train, Y_train.argmax(axis = -1))
+# preds_rg     = clf.predict(X_test)
 
-# Printing the results
-acc2         = np.mean(preds_rg == Y_test.argmax(axis = -1))
-print("Classification accuracy: %f " % (acc2))
+# # Printing the results
+# acc2         = np.mean(preds_rg == Y_test.argmax(axis = -1))
+# print("Classification accuracy: %f " % (acc2))
 
 # plot the confusion matrices for both classifiers
 names        = ['1', '2']
@@ -257,7 +257,7 @@ plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,
 
 plt.savefig('plot-EEG')
 
-plt.figure(1)
-plot_confusion_matrix(preds_rg, Y_test.argmax(axis = -1), names, title = 'xDAWN + RG')
+# plt.figure(1)
+# plot_confusion_matrix(preds_rg, Y_test.argmax(axis = -1), names, title = 'xDAWN + RG')
 
-plt.savefig('plot-xDawn')
+# plt.savefig('plot-xDawn')
