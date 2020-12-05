@@ -92,7 +92,7 @@ from util import read, save
 
 
 # MINE
-from getDataAndLabels2 import getDataAndLabels, channelsSamplesTrialKernels
+from getDataAndLabels1 import getDataAndLabels, channelsSamplesTrialKernels
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
@@ -172,7 +172,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 1, epochs = 100, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 100, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
