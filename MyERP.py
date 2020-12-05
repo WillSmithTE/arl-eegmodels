@@ -116,6 +116,8 @@ y_test       = y[threeQuarters:]
 
 ############################# EEGNet portion ##################################
 
+def getClassWeights(arg):
+    return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
 
 # the syntax is {class_1:weight_1, class_2:weight_2,...}. Here just setting
 # the weights all to be 1
@@ -172,7 +174,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 100, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 10, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
@@ -201,6 +203,11 @@ from sklearn.metrics import roc_auc_score
 
 roc_auc_score = roc_auc_score(y_test, preds)
 print('roc_auc_score', roc_auc_score)
+
+from sklearn.metrics import confusion_matrix
+
+print('confusion_matrix')
+confusion_matrix(y_test, preds)
 
 # plot the confusion matrices for both classifiers
 names        = ['1', '2']
