@@ -135,8 +135,10 @@ Y_test       = np_utils.to_categorical(y_test-1)
 # X_test       = X_test.reshape(X_test.shape[0], kernels, chans, samples)
    
 print('X_train shape:', X_train.shape)
+print('X_validate shape:', X_validate.shape)
 print('X_testshape:', X_test.shape)
 print(X_train.shape[0], 'train samples')
+print(X_validate.shape[0], 'validate samples')
 print(X_test.shape[0], 'test samples')
 
 print("chans:", chans, "samples:", samples)
