@@ -174,7 +174,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 1, epochs = 50, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 1, epochs = 10, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
@@ -207,7 +207,7 @@ print('roc_auc_score', roc_auc_score)
 from sklearn.metrics import confusion_matrix
 
 print('confusion_matrix')
-confusion_matrix(y_test, preds)
+print(confusion_matrix(y_test, preds))
 
 # plot the confusion matrices for both classifiers
 names        = ['1', '2']
