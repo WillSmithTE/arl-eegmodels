@@ -124,9 +124,9 @@ class_weights = dict(enumerate(class_weight.compute_class_weight('balanced', np.
 
 print('class_weights', class_weights)
 # convert labels to one-hot encodings.
-Y_train      = np_utils.to_categorical(y_train-1)
-Y_validate   = np_utils.to_categorical(y_validate-1)
-Y_test       = np_utils.to_categorical(y_test-1)
+Y_train      = np_utils.to_categorical(y_train)
+Y_validate   = np_utils.to_categorical(y_validate)
+Y_test       = np_utils.to_categorical(y_test)
 
 # convert data to NCHW (trials, kernels, channels, samples) format. Data 
 # contains 60 channels and 151 time-points. Set the number of kernels to 1.

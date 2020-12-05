@@ -46,7 +46,11 @@ def getDataAndLabels():
                 [data, labels] = doStuff(dir, index, data, labels)
         save(data, DATA_PATH)
         save(labels, LABELS_PATH)
+    labels = transformLabels(labels)
     return [data, labels]
 
 def channelsSamplesTrialKernels(data):
     return data.shape[0], data.shape[1], data.shape[2], 1
+
+def transformLabels(labels):
+    return labels - 1

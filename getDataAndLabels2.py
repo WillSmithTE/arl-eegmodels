@@ -16,7 +16,11 @@ def getDataAndLabels():
         labels = np.load(LABELS_FILE)
         save(data, DATA_PICKLE)
         save(labels, LABELS_PICKLE)
+    labels = transformLabels(labels)
     return [data, labels]
 
 def channelsSamplesTrialKernels(data):
     return data.shape[2], data.shape[3], data.shape[0], 1
+
+def transformLabels(labels):
+    return labels - 4
