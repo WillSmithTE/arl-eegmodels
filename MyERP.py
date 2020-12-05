@@ -92,19 +92,19 @@ from util import read, save
 
 
 # MINE
-from getDataAndLabels import getDataAndLabels
+from getDataAndLabels2 import getDataAndLabels, channelsSamplesTrialKernels
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
 X = data*1000 # format is in (channels, samples, trials)
 y = labels
 
-chans, samples, trials, kernels = data.shape[0], data.shape[1], data.shape[2], 1
+chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
 
 X = X.reshape(trials, kernels, chans, samples)
 
-half = (trials//8)*6
-threeQuarters = (trials//8) * 7
+half = (trials//4)*2
+threeQuarters = (trials//4) * 3
 
 # take 50/25/25 percent of the data to train/validate/test
 X_train      = X[0:half,]

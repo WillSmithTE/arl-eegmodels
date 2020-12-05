@@ -47,3 +47,6 @@ def getDataAndLabels():
         save(data, DATA_PATH)
         save(labels, LABELS_PATH)
     return [data, labels]
+
+def channelsSamplesTrialKernels(data):
+    return data.shape[0], data.shape[1], data.shape[2], 1
