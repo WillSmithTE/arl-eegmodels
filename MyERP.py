@@ -122,7 +122,7 @@ def getClassWeights(arg):
 # the syntax is {class_1:weight_1, class_2:weight_2,...}. Here just setting
 # the weights all to be 1
 # class_weights = {1:96, 0:4}
-class_weights = getClassWeights(y)
+class_weights = getClassWeights(y_train)
 
 print('class_weights', class_weights)
 # convert labels to one-hot encodings.
