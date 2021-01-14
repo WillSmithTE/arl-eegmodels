@@ -149,7 +149,7 @@ print("chans:", chans, "samples:", samples)
 # model configurations may do better, but this is a good starting point)
 model = EEGNet(nb_classes = 2, Chans = chans, Samples = samples, 
                dropoutRate = 0.2, kernLength = 128, F1 = 8, D = 2, F2 = 16, 
-               dropoutType = 'SpatialDropout2D')
+               dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
 model.compile(loss='categorical_crossentropy', optimizer='adam', 
@@ -174,7 +174,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 75, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 100, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
