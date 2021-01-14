@@ -199,10 +199,10 @@ preds       = probs.argmax(axis = -1)
 acc         = np.mean(preds == Y_test.argmax(axis=-1))
 print("Classification accuracy: %f " % (acc))
 
-from sklearn.metrics import roc_auc_score
+# from sklearn.metrics import roc_auc_score
 
-roc_auc_score = roc_auc_score(y_test, preds)
-print('roc_auc_score', roc_auc_score)
+# roc_auc_score = roc_auc_score(y_test, preds)
+# print('roc_auc_score', roc_auc_score)
 
 from sklearn.metrics import confusion_matrix
 
