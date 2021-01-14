@@ -210,7 +210,7 @@ print('confusion_matrix')
 print(confusion_matrix(y_test, preds))
 
 # plot the confusion matrices for both classifiers
-names        = ['1', '2']
+names        = ['1', '2', '3']
 plt.figure(0)
 plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,2')
 
