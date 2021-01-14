@@ -24,3 +24,9 @@ def channelsSamplesTrialKernels(data):
 
 def transformLabels(labels):
     return labels - 4
+
+def getConfusionMatrixNames():
+    return ['1', '2']
+
+def getNumClasses():
+    return 2

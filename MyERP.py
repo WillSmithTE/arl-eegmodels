@@ -92,7 +92,7 @@ from util import read, save
 
 
 # MINE
-from getDataAndLabelsSSVEP1 import getDataAndLabels, channelsSamplesTrialKernels
+from getDataAndLabelsSSVEP1 import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
@@ -147,7 +147,7 @@ print("chans:", chans, "samples:", samples)
 
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
-model = EEGNet(nb_classes = 3, Chans = chans, Samples = samples, 
+model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
                dropoutRate = 0.2, kernLength = 1250, F1 = 8, D = 2, F2 = 16, 
                dropoutType = 'Dropout')
 
@@ -201,8 +201,8 @@ print("Classification accuracy: %f " % (acc))
 
 # from sklearn.metrics import roc_auc_score
 
-# roc_auc_score = roc_auc_score(y_test, preds)
-# print('roc_auc_score', roc_auc_score)
+roc_auc_score = roc_auc_score(y_test, preds)
+print('roc_auc_score', roc_auc_score)
 
 from sklearn.metrics import confusion_matrix
 
@@ -210,7 +210,7 @@ print('confusion_matrix')
 print(confusion_matrix(y_test, preds))
 
 # plot the confusion matrices for both classifiers
-names        = ['1', '2', '3']
+names        = getConfusionMatrixNames()
 plt.figure(0)
 plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,2')
 
