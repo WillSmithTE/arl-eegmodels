@@ -219,8 +219,8 @@ plt.savefig('plot-EEG')
 
 # plot loss
 plt.figure(0)
-plt.plot(fittedModel.history('loss'))
-plt.plot(fittedModel.history('val_loss'))
+plt.plot(fittedModel.history['loss'])
+plt.plot(fittedModel.history['val_loss'])
 plt.title('Model loss')
 plt.ylabel('loss')
 plt.xlabel('epoch')
