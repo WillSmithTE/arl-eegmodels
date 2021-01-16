@@ -217,3 +217,12 @@ plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,
 
 plt.savefig('plot-EEG')
 
+# plot loss
+plt.figure(0)
+plt.plot(fittedModel.history('loss'))
+plt.plot(fittedModel.history('val_loss'))
+plt.title('Model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefit('plot-loss')
