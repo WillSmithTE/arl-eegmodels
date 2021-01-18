@@ -11,8 +11,8 @@ files = {
 
 directories = ['S01', 'S02', 'S03', 'S04']
 indexes = ['1', '2', '3', '4']
-DATA_PATH = 'pickles/data.pickle'
-LABELS_PATH = 'pickles/labels.pickle'
+DATA_PATH = 'pickles/datasubj1.pickle'
+LABELS_PATH = 'pickles/labelssubj1.pickle'
 
 def getLabels(dir, index):
     mat = getMatFile(dir, index, 'labels')
