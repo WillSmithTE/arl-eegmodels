@@ -235,9 +235,11 @@ print("Classification accuracy: %f " % (acc2))
 names        = ['audio left', 'audio right', 'vis left', 'vis right']
 plt.figure(0)
 plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,2')
+plt.savefig('plot-EEG')
 
 plt.figure(1)
 plot_confusion_matrix(preds_rg, Y_test.argmax(axis = -1), names, title = 'xDAWN + RG')
+plt.savefig('plot-xDAWN')
 
 
 
