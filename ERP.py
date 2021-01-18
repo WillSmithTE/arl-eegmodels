@@ -85,6 +85,7 @@ from sklearn.linear_model import LogisticRegression
 
 # tools for plotting confusion matrices
 from matplotlib import pyplot as plt
+plt.switch_backend('agg')
 
 
 ##################### Process, filter and epoch the data ######################
