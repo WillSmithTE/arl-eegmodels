@@ -17,7 +17,7 @@ def getFileName(subject, session, labelsOrData):
 sessions2And3 = ['2', '3']
 
 files = {
-    '1': sessions2And3
+    '1': ['1', '2', '3', '4'],
     # '2': sessions2And3,
     # '3': sessions2And3,
     # '4': sessions2And3,
