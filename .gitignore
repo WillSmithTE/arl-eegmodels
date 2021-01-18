@@ -2,3 +2,4 @@
 *.pyc
 Dataset*
 SSVEPDataset1
+*.mat

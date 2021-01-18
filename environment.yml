@@ -35,6 +35,7 @@ dependencies:
   - pip:
     - mne
     - pyriemann
+    - eeg-filters
 
 prefix: /Users/williamsmith/opt/miniconda3/envs/arl-eeg
 
