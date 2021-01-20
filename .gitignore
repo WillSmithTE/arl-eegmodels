@@ -1,5 +1,5 @@
 *.pickle
 *.pyc
 Dataset*
-SSVEPDataset1
 *.mat
+SSVEPDataset1
