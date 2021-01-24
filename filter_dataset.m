@@ -1,17 +1,17 @@
 % load 'Subject_B_Test.mat' % load data file
- load '~/projects/arl-eegmodels/subj1.mat'
+ load 'erp1.mat'
 % % convert to double precision
  Signal=double(data);
 % StimulusType=double(StimulusType);
 
 % Filtered_signal=zeros(100,7794,64);
-Filtered_signal=zeros(32, 231, 5121);
+Filtered_signal=zeros(32, 231, 19215);
 
 %Filtered_signal=zeros(5340,684,56);
 
 figure;
 % for char=1:100   % 5340
-for char=1:5121   % 5340
+for char=1:19215   % 5340
 
 %     for chan=1:64  % 56
     for chan=1:32  % 56
@@ -31,7 +31,7 @@ for char=1:5121   % 5340
     end
 end
 
-
+% save('filtered_erp1', 'Filtered_signal')
 %  Signal=Filtered_signal;
 %  Flashing=double(Flashing);
 %  StimulusCode=double(StimulusCode);
