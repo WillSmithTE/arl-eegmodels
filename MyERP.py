@@ -91,7 +91,7 @@ plt.switch_backend('agg')
 from util import read, save
 
 # MINE
-from getDataAndLabels1Subj1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Subj1 import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
