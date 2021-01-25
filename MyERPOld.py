@@ -72,7 +72,7 @@ from mne import io
 from mne.datasets import sample
 
 # EEGNet-specific imports
-from EEGModels import EEGNet
+from EEGModels import EEGNet, EEGNet_old
 from tensorflow.keras import utils as np_utils
 from tensorflow.keras.callbacks import ModelCheckpoint
 
@@ -146,8 +146,8 @@ print("chans:", chans, "samples:", samples)
 
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
-model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.5, kernLength = 115, F1 = 8, D = 2, F2 = 16, 
+model = EEGNet_old(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
+               dropoutRate = 0.2, 
                dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
