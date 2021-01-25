@@ -147,8 +147,7 @@ print("chans:", chans, "samples:", samples)
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
 model = EEGNet_old(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.2, 
-               dropoutType = 'Dropout')
+               dropoutRate = 0.2)
 
 # compile the model and set the optimizers
 model.compile(loss='categorical_crossentropy', optimizer='adam', 
