@@ -204,8 +204,8 @@ clf = make_pipeline(XdawnCovariances(n_components),
 preds_rg     = np.zeros(len(Y_test))
 
 # reshape back to (trials, channels, samples)
-X_train      = X_train.reshape(X_train.shape[2], chans, samples)
-X_test       = X_test.reshape(X_test.shape[2], chans, samples)
+X_train      = X_train.reshape(X_train.shape[0], chans, samples)
+X_test       = X_test.reshape(X_test.shape[0], chans, samples)
 
 # train a classifier with xDAWN spatial filtering + Riemannian Geometry (RG)
 # labels need to be back in single-column format
