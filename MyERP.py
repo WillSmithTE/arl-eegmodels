@@ -152,7 +152,7 @@ D = 2
 F2 = F1 * D
 
 model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.5, kernLength = 115, F1 = F1, D = D, F2 = F2, 
+               dropoutRate = 0.2, kernLength = 115, F1 = F1, D = D, F2 = F2, 
                dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
@@ -178,7 +178,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 1, epochs = 15, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 50, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
