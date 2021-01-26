@@ -91,7 +91,7 @@ plt.switch_backend('agg')
 from util import read, save
 
 # MINE
-from getDataAndLabels1Subj1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
@@ -152,7 +152,7 @@ D = 2
 F2 = F1 * D
 
 model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.5, kernLength = 64, F1 = F1, D = D, F2 = F2, 
+               dropoutRate = 0.25, kernLength = 64, F1 = F1, D = D, F2 = F2, 
                dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
@@ -178,7 +178,7 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 200, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 64, epochs = 100, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer], class_weight = class_weights)
 
