@@ -2,6 +2,7 @@ import scipy.io
 import numpy as np
 from util import save, read
 from channelPrune import takeOnlyCertainChannels
+from downsample import downSample
 
 files = {
     '01': ['1', '2', '3', '4']
@@ -63,7 +64,8 @@ def transformLabels(labels):
 
 def transformData(data):
     filteredData = takeOnlyCertainChannels(data)
-    return filteredData
+    downSampledData = downSample(filteredData)
+    return downSampledData
 
 def getConfusionMatrixNames():
     return ['1', '2']
