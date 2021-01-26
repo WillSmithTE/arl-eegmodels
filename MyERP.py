@@ -147,12 +147,12 @@ print("chans:", chans, "samples:", samples)
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
 
-F1 = 32
-D = 8
+F1 = 8
+D = 2
 F2 = F1 * D
 
 model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.5, kernLength = 128, F1 = F1, D = D, F2 = F2, 
+               dropoutRate = 0.5, kernLength = 32, F1 = F1, D = D, F2 = F2, 
                dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
