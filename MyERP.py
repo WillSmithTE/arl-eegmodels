@@ -91,11 +91,11 @@ plt.switch_backend('agg')
 from util import read, save
 
 # MINE
-from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Subj1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
-X = data*1000 # format is in (channels, samples, trials)
+X = data #*1000 # format is in (channels, samples, trials)
 y = labels
 
 chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
@@ -147,7 +147,7 @@ print("chans:", chans, "samples:", samples)
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
 model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.5, kernLength = 115, F1 = 8, D = 2, F2 = 16, 
+               dropoutRate = 0.2, kernLength = 115, F1 = 8, D = 2, F2 = 16, 
                dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
