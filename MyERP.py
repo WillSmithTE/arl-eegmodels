@@ -148,7 +148,7 @@ print("chans:", chans, "samples:", samples)
 # model configurations may do better, but this is a good starting point)
 
 F1 = 32
-D = 2
+D = 8
 F2 = F1 * D
 
 model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
