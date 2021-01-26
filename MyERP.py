@@ -189,37 +189,6 @@ fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 50,
 # WEIGHTS_PATH = /path/to/EEGNet-8-2-weights.h5 
 # model.load_weights(WEIGHTS_PATH)
 
-<<<<<<< HEAD
-=======
-############################# PyRiemann Portion ##############################
-
-# code is taken from PyRiemann's ERP sample script, which is decoding in 
-# the tangent space with a logistic regression
-
-n_components = 2  # pick some components
-
-# set up sklearn pipeline
-clf = make_pipeline(XdawnCovariances(n_components),
-                    TangentSpace(metric='riemann'),
-                    LogisticRegression())
-
-preds_rg     = np.zeros(len(Y_test))
-
-# reshape back to (trials, channels, samples)
-X_train      = X_train.reshape(X_train.shape[0], chans, samples)
-X_test       = X_test.reshape(X_test.shape[0], chans, samples)
-
-# train a classifier with xDAWN spatial filtering + Riemannian Geometry (RG)
-# labels need to be back in single-column format
-clf.fit(X_train, Y_train.argmax(axis = -1))
-preds_rg     = clf.predict(X_test)
-
-# Printing the results
-acc2         = np.mean(preds_rg == Y_test.argmax(axis = -1))
-print("Classification accuracy: %f " % (acc2))
-
-
->>>>>>> parent of 8c799ae... xdawn stuff
 ###############################################################################
 # make prediction on test set.
 ###############################################################################
