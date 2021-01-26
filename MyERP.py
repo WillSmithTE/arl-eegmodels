@@ -95,7 +95,7 @@ from getDataAndLabels1Subj1Filtered import getDataAndLabels, channelsSamplesTria
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
-X = data #*1000 # format is in (channels, samples, trials)
+X = data *1000 # format is in (channels, samples, trials)
 y = labels
 
 chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
