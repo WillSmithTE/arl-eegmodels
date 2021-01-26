@@ -1,6 +1,7 @@
 import scipy.io
 import numpy as np
 from util import save, read
+from channelPrune import takeOnlyCertainChannels
 
 files = {
     '01': ['1', '2', '3', '4']
@@ -51,6 +52,7 @@ def getDataAndLabels():
         save(data, DATA_PATH)
         save(labels, LABELS_PATH)
     labels = transformLabels(labels)
+    data = transformData(data)
     return [data, labels]
 
 def channelsSamplesTrialKernels(data):
@@ -58,6 +60,10 @@ def channelsSamplesTrialKernels(data):
 
 def transformLabels(labels):
     return labels - 1
+
+def transformData(data):
+    filteredData = takeOnlyCertainChannels(data)
+    return filteredData
 
 def getConfusionMatrixNames():
     return ['1', '2']
