@@ -1,9 +1,7 @@
 ## DOWNSAMPLING THE SIGNAL
-from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 import numpy as np
 import scipy.signal
 
-[data, labels] = getDataAndLabels()
 
 def downSample(data):
     reshaped = data.reshape(data.shape[2], data.shape[1], data.shape[0])
