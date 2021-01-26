@@ -91,7 +91,7 @@ plt.switch_backend('agg')
 from util import read, save
 
 # MINE
-from getDataAndLabels1Subj1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
@@ -147,7 +147,7 @@ print("chans:", chans, "samples:", samples)
 # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
 # model configurations may do better, but this is a good starting point)
 model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.2, kernLength = 115, F1 = 8, D = 2, F2 = 16, 
+               dropoutRate = 0.5, kernLength = 115, F1 = 8, D = 2, F2 = 16, 
                dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
@@ -189,34 +189,6 @@ fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 1,
 # WEIGHTS_PATH = /path/to/EEGNet-8-2-weights.h5 
 # model.load_weights(WEIGHTS_PATH)
 
-############################# PyRiemann Portion ##############################
-
-# code is taken from PyRiemann's ERP sample script, which is decoding in 
-# the tangent space with a logistic regression
-
-n_components = 2  # pick some components
-
-# set up sklearn pipeline
-clf = make_pipeline(XdawnCovariances(n_components),
-                    TangentSpace(metric='riemann'),
-                    LogisticRegression())
-
-preds_rg     = np.zeros(len(Y_test))
-
-# reshape back to (trials, channels, samples)
-X_train      = X_train.reshape(X_train.shape[0], chans, samples)
-X_test       = X_test.reshape(X_test.shape[0], chans, samples)
-
-# train a classifier with xDAWN spatial filtering + Riemannian Geometry (RG)
-# labels need to be back in single-column format
-clf.fit(X_train, Y_train.argmax(axis = -1))
-preds_rg     = clf.predict(X_test)
-
-# Printing the results
-acc2         = np.mean(preds_rg == Y_test.argmax(axis = -1))
-print("Classification accuracy: %f " % (acc2))
-
-
 ###############################################################################
 # make prediction on test set.
 ###############################################################################
@@ -253,8 +225,3 @@ plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.savefig('plot-loss')
-
-plt.figure(2)
-plot_confusion_matrix(preds_rg, Y_test.argmax(axis = -1), names, title = 'xDawn')
-
-plt.savefig('plot-xDawn')
