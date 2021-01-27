@@ -91,7 +91,7 @@ plt.switch_backend('agg')
 from util import read, save
 
 # MINE
-from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1SplitSubjects import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 [data, labels] = getDataAndLabels()
@@ -112,6 +112,12 @@ X_validate   = X[half:threeQuarters,]
 y_validate   = y[half:threeQuarters]
 X_test       = X[threeQuarters:,]
 y_test       = y[threeQuarters:]
+
+def isCrossSubject():
+    return samples > 15000
+
+if isCrossSubject():
+    [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
 
 ############################# EEGNet portion ##################################
 
