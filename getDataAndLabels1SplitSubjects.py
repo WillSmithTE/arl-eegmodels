@@ -82,3 +82,6 @@ def getConfusionMatrixNames():
 
 def getNumClasses():
     return 2
+
+def isCrossSubject():
+    return True

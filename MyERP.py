@@ -89,10 +89,7 @@ plt.switch_backend('agg')
 from util import read, save
 
 # MINE
-from getDataAndLabels1SplitSubjects import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
-
-def isCrossSubject():
-    return samples > 15000
+from getDataAndLabels1SplitSubjects import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses, isCrossSubject
 
 if isCrossSubject():
     [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
