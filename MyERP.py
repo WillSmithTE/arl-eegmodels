@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
  Sample script using EEGNet to classify Event-Related Potential (ERP) EEG data
  from a four-class classification task, using the sample dataset provided in
@@ -24,11 +26,11 @@
  PyRiemann (code provided below).
 
  [1] A. Gramfort, M. Luessi, E. Larson, D. Engemann, D. Strohmeier, C. Brodbeck,
-     L. Parkkonen, M. Hämäläinen, MNE software for processing MEG and EEG data, 
+     L. Parkkonen, M. , MNE software for processing MEG and EEG data, 
      NeuroImage, Volume 86, 1 February 2014, Pages 446-460, ISSN 1053-8119.
 
  [2] A. Gramfort, M. Luessi, E. Larson, D. Engemann, D. Strohmeier, C. Brodbeck, 
-     R. Goj, M. Jas, T. Brooks, L. Parkkonen, M. Hämäläinen, MEG and EEG data 
+     R. Goj, M. Jas, T. Brooks, L. Parkkonen, M. , MEG and EEG data 
      analysis with MNE-Python, Frontiers in Neuroscience, Volume 7, 2013.
 
  [3] https://github.com/alexandrebarachant/pyRiemann. 

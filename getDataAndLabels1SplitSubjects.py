@@ -43,9 +43,9 @@ def getDataAndLabels():
     X_train = np.concatenate([getData('01', '1'), getData('01', '2'), getData('01', '3'), getData('01', '4'), getData('02', '1'), getData('02', '2'), getData('02', '3')], axis=2)
     X_validate = np.concatenate([getData('03', '1'), getData('03', '2'), getData('03', '3'), getData('03', '4')], axis=2)
     X_test = np.concatenate([getData('04', '1'), getData('04', '2'), getData('04', '3'), getData('04', '4')], axis=2)
-    y_train = np.concatenate([getLabels('01', '1'), getLabels('01', '2'), getLabels('01', '3'), getLabels('01', '4'), getLabels('02', '1'), getLabels('02', '2'), getLabels('02', '3')], axis=2)
-    y_validate = np.concatenate([getLabels('03', '1'), getLabels('03', '2'), getLabels('03', '3'), getLabels('03', '4')], axis=2)
-    y_test = np.concatenate([getLabels('04', '1'), getLabels('04', '2'), getLabels('04', '3'), getLabels('04', '4')], axis=2)
+    y_train = np.concatenate([getLabels('01', '1'), getLabels('01', '2'), getLabels('01', '3'), getLabels('01', '4'), getLabels('02', '1'), getLabels('02', '2'), getLabels('02', '3')])
+    y_validate = np.concatenate([getLabels('03', '1'), getLabels('03', '2'), getLabels('03', '3'), getLabels('03', '4')])
+    y_test = np.concatenate([getLabels('04', '1'), getLabels('04', '2'), getLabels('04', '3'), getLabels('04', '4')])
 
     [X_train, X_validate, X_test] = list(map(lambda x: transformData(x), [X_train, X_validate, X_test]))
     [y_train, y_validate, y_test] = list(map(lambda x: transformLabels(x), [y_train, y_validate, y_test]))
