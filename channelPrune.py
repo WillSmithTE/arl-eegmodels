@@ -1,8 +1,13 @@
 # good channels https://www.nature.com/articles/s41598-020-70569-y
 # Fp1, Fp2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, Fz, Cz, Pz
+
+# good channels per YK
+# Pz, P7, P8, Oz, O1, and O2
+# 27, 29, 25, 31, 32, 30
 import numpy as np
 
-namesToTake = np.array([1, 2, 5, 6, 7, 8, 9, 16, 17, 18, 26, 27, 28, 30, 32])
+# namesToTake = np.array([1, 2, 5, 6, 7, 8, 9, 16, 17, 18, 26, 27, 28, 30, 32])
+namesToTake = np.array([27, 29, 25, 31, 32, 30])
 
 indexesToTake = namesToTake - 1
 
