@@ -74,7 +74,8 @@ def transformLabels(labels):
 def transformData(data):
     filteredData = takeOnlyCertainChannels(data)
     downSampledData = downSample(filteredData)
-    return downSampledData
+    multipliedData = downSampledData * 1000
+    return multipliedData
 
 def getConfusionMatrixNames():
     return ['1', '2']

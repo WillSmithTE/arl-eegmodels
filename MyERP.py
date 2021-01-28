@@ -91,31 +91,31 @@ from util import read, save
 # MINE
 from getDataAndLabels1SplitSubjects import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
-# extract raw data. scale by 1000 due to scaling sensitivity in deep learning
-[data, labels] = getDataAndLabels()
-X = data *1000 # format is in (channels, samples, trials)
-y = labels
-
-chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
-
-X = X.reshape(trials, kernels, chans, samples)
-
-half = (trials//4)*2
-threeQuarters = (trials//4) * 3
-
-# take 50/25/25 percent of the data to train/validate/test
-X_train      = X[0:half,]
-y_train      = y[0:half]
-X_validate   = X[half:threeQuarters,]
-y_validate   = y[half:threeQuarters]
-X_test       = X[threeQuarters:,]
-y_test       = y[threeQuarters:]
-
 def isCrossSubject():
     return samples > 15000
 
 if isCrossSubject():
     [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
+else:
+# extract raw data. scale by 1000 due to scaling sensitivity in deep learning
+    [data, labels] = getDataAndLabels()
+    X = data *1000 # format is in (channels, samples, trials)
+    y = labels
+
+    chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
+
+    X = X.reshape(trials, kernels, chans, samples)
+
+    half = (trials//4)*2
+    threeQuarters = (trials//4) * 3
+
+    # take 50/25/25 percent of the data to train/validate/test
+    X_train      = X[0:half,]
+    y_train      = y[0:half]
+    X_validate   = X[half:threeQuarters,]
+    y_validate   = y[half:threeQuarters]
+    X_test       = X[threeQuarters:,]
+    y_test       = y[threeQuarters:]
 
 ############################# EEGNet portion ##################################
 
