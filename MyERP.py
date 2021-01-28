@@ -93,6 +93,7 @@ from getDataAndLabels1SplitSubjects import getDataAndLabels, channelsSamplesTria
 
 if isCrossSubject():
     [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
+    chans, samples, trials, kernels = channelsSamplesTrialKernels(X_train)
 else:
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
     [data, labels] = getDataAndLabels()
