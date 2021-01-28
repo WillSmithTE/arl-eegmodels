@@ -76,10 +76,6 @@ from EEGModels import EEGNet
 from tensorflow.keras import utils as np_utils
 from tensorflow.keras.callbacks import ModelCheckpoint
 
-# PyRiemann imports
-from pyriemann.estimation import XdawnCovariances
-from pyriemann.tangentspace import TangentSpace
-from pyriemann.utils.viz import plot_confusion_matrix
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.utils import class_weight
@@ -223,13 +219,9 @@ print(confusion_matrix(y_test, preds))
 
 # plot the confusion matrices for both classifiers
 names        = getConfusionMatrixNames()
-plt.figure(0)
-plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,2')
-
-plt.savefig('plot-EEG')
 
 # plot loss
-plt.figure(1)
+plt.figure(0)
 plt.plot(fittedModel.history['loss'])
 plt.plot(fittedModel.history['val_loss'])
 plt.title('Model loss')

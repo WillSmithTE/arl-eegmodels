@@ -36,6 +36,7 @@ dependencies:
     - mne
     - pyriemann
     - eeg-filters
+    - tensorflow
 
 prefix: /Users/williamsmith/opt/miniconda3/envs/arl-eeg
 
