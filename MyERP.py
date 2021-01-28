@@ -89,13 +89,14 @@ plt.switch_backend('agg')
 from util import read, save
 
 # MINE
-from getDataAndLabels1SplitSubjects import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses, isCrossSubject
+from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
-if isCrossSubject():
+try:
+    from getDataAndLabels1Filtered import isCrossSubject
     [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
     chans, samples, trials, kernels = channelsSamplesTrialKernels(X_train)
     [X_train, X_validate, X_test] = list(map(lambda x: x.reshape(x.shape[2], kernels, chans, samples), [X_train, X_validate, X_test]))
-else:
+except:
 # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
     [data, labels] = getDataAndLabels()
     X = data *1000 # format is in (channels, samples, trials)
