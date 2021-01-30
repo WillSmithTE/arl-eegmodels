@@ -75,6 +75,9 @@ from mne.datasets import sample
 
 # EEGNet-specific imports
 from EEGModels import EEGNet
+
+from tensorflow import py_func, double
+
 from tensorflow.keras import utils as np_utils
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.callbacks import Callback
@@ -168,9 +171,16 @@ learningRate = 0.01
 
 optimizer = Adam(lr=learningRate)
 
+# metrics = ['accuracy']
+
+def aucroc(y_true, y_pred):
+    return py_func(roc_auc_score, (y_true, y_pred), double)
+
+metrics = [aucroc]
+
 # compile the model and set the optimizers
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, 
-              metrics = ['accuracy'])
+              metrics = metrics)
 
 # count number of parameters in the model
 numParams    = model.count_params()    
