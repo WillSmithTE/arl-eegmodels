@@ -182,7 +182,7 @@ def myRocAuc(y_true, y_pred):
         return 0.0
 
 def aucroc(y_true, y_pred):
-    py_func(myRocAuc, (y_true, y_pred), double)
+    return py_func(myRocAuc, (y_true, y_pred), double)
 
 metrics = [aucroc]
 
