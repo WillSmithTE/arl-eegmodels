@@ -171,20 +171,7 @@ learningRate = 0.01
 
 optimizer = Adam(lr=learningRate)
 
-# metrics = ['accuracy']
-
-def myRocAuc(y_true, y_pred):
-    print('y_true', y_true)
-    print('y_pred', y_pred)
-    try:
-        return roc_auc_score(y_true, y_pred)
-    except:
-        return 0.0
-
-def aucroc(y_true, y_pred):
-    return py_func(myRocAuc, (y_true, y_pred), double)
-
-metrics = [aucroc]
+metrics = ['accuracy']
 
 # compile the model and set the optimizers
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, 
@@ -227,7 +214,7 @@ class OnEpochEndCallback(Callback):
         print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
         print('roc_auc_score', roc_auc)
 
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 100, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 1000, epochs = 100, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
