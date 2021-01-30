@@ -81,6 +81,8 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.utils import class_weight
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import roc_auc_score
 
 # tools for plotting confusion matrices
 import matplotlib.pyplot as plt
@@ -183,9 +185,24 @@ checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
 # pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
 # Riemannian geometry classification (below)
 ################################################################################
+
+class OnEpochEndCallback(Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        x_test = self.validation_data[0]
+        y_test = self.validation_data[1]
+        # x_test, y_test = self.validation_data
+        predictions = self.model.predict(x_test)
+        y_test = np.argmax(y_test, axis=-1)
+        predictions = np.argmax(predictions, axis=-1)
+        c = confusion_matrix(y_test, predictions)
+
+        print('Confusion matrix:\n', c)
+        print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
+        print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
+
 fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 500, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
-                        callbacks=[checkpointer], class_weight = class_weights)
+                        callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
 # load optimal weights
 # model.load_weights('/tmp/checkpoint.h5')
@@ -208,13 +225,9 @@ preds       = probs.argmax(axis = -1)
 acc         = np.mean(preds == Y_test.argmax(axis=-1))
 print("Classification accuracy: %f " % (acc))
 
-from sklearn.metrics import roc_auc_score
-
 if getNumClasses() == 2:
     roc_auc_score = roc_auc_score(y_test, preds)
     print('roc_auc_score', roc_auc_score)
-
-from sklearn.metrics import confusion_matrix
 
 print('confusion_matrix')
 print(confusion_matrix(y_test, preds))
