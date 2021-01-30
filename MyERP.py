@@ -173,11 +173,14 @@ optimizer = Adam(lr=learningRate)
 
 # metrics = ['accuracy']
 
+def return0(a, b):
+    return 0.0
+
 def aucroc(y_true, y_pred):
     try:
-        return roc_auc_score(y_true, y_pred)
+        return py_func(roc_auc_score, (y_true, y_pred), double)
     except:
-        return 0
+        py_func(return0, (y_true, y_pred), double)
 
 metrics = [aucroc]
 
