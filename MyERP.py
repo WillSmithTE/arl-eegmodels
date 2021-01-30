@@ -82,6 +82,7 @@ from tensorflow.keras import utils as np_utils
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.callbacks import Callback
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.metrics import AUC
 
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
@@ -173,10 +174,7 @@ optimizer = Adam(lr=learningRate)
 
 # metrics = ['accuracy']
 
-def aucroc(y_true, y_pred):
-    return py_func(roc_auc_score, (y_true, y_pred), double)
-
-metrics = [aucroc]
+metrics = [AUC()]
 
 # compile the model and set the optimizers
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, 
