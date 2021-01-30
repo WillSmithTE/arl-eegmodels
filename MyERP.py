@@ -174,6 +174,8 @@ optimizer = Adam(lr=learningRate)
 # metrics = ['accuracy']
 
 def myRocAuc(y_true, y_pred):
+    print('y_true', y_true)
+    print('y_pred', y_pred)
     try:
         return roc_auc_score(y_true, y_pred)
     except:
