@@ -77,6 +77,7 @@ from mne.datasets import sample
 from EEGModels import EEGNet
 from tensorflow.keras import utils as np_utils
 from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.callbacks import Callback
 
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
