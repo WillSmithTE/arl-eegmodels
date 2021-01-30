@@ -160,7 +160,7 @@ D = 2
 F2 = F1 * D
 
 model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = 0.5, kernLength = 64, F1 = F1, D = D, F2 = F2, 
+               dropoutRate = 0.25, kernLength = 64, F1 = F1, D = D, F2 = F2, 
                dropoutType = 'Dropout')
 
 # compile the model and set the optimizers
@@ -197,14 +197,14 @@ class OnEpochEndCallback(Callback):
         predictions = np.argmax(predictions, axis=-1)
         c = confusion_matrix(y_test, predictions)
 
-        roc_auc_score = roc_auc_score(y_test, predictions)
+        roc_auc = roc_auc_score(y_test, predictions)
 
         print('Confusion matrix:\n', c)
         print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
         print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
-        print('roc_auc_score', roc_auc_score)
+        print('roc_auc_score', roc_auc)
 
-fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 500, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 16, epochs = 100, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
@@ -230,8 +230,8 @@ acc         = np.mean(preds == Y_test.argmax(axis=-1))
 print("Classification accuracy: %f " % (acc))
 
 if getNumClasses() == 2:
-    roc_auc_score = roc_auc_score(y_test, preds)
-    print('roc_auc_score', roc_auc_score)
+    roc_auc = roc_auc_score(y_test, preds)
+    print('roc_auc_score', roc_auc)
 
 print('confusion_matrix')
 print(confusion_matrix(y_test, preds))
