@@ -132,8 +132,8 @@ def getClassWeights(arg):
 # the syntax is {class_1:weight_1, class_2:weight_2,...}. Here just setting
 # the weights all to be 1
 # class_weights = {1:1, 0:1}
-class_weights = getClassWeights(y_train)
-# class_weights = {0:30, 1:1}
+# class_weights = getClassWeights(y_train)
+class_weights = {0:22, 1:1}
 
 print('class_weights', class_weights)
 # convert labels to one-hot encodings.
@@ -214,7 +214,7 @@ class OnEpochEndCallback(Callback):
         print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
         print('roc_auc_score', roc_auc)
 
-fittedModel = model.fit(X_train, Y_train, batch_size = 100, epochs = 500, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 100, epochs = 300, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
