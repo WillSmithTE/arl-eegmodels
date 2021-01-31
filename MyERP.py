@@ -167,7 +167,7 @@ model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples,
                dropoutRate = 0.25, kernLength = 115, F1 = F1, D = D, F2 = F2, 
                dropoutType = 'Dropout')
 
-learningRate = 0.1
+learningRate = 0.001
 
 optimizer = Adam(lr=learningRate)
 
