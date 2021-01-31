@@ -126,6 +126,8 @@ Y_validate   = y[144:216]
 X_test       = X[216:,]
 Y_test       = y[216:]
 
+oldYTest = Y_test
+
 ############################# EEGNet portion ##################################
 
 # convert labels to one-hot encodings.
@@ -212,4 +214,4 @@ plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,
 plt.savefig('plot-EEG')
 
 print('confusion_matrix')
-print(confusion_matrix(Y_test, preds))
+print(confusion_matrix(oldYTest, preds))
