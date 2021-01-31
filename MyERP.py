@@ -167,7 +167,7 @@ model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples,
                dropoutRate = 0.25, kernLength = 115, F1 = F1, D = D, F2 = F2, 
                dropoutType = 'Dropout')
 
-learningRate = 0.01
+learningRate = 0.005
 
 optimizer = Adam(lr=learningRate)
 
@@ -214,7 +214,7 @@ class OnEpochEndCallback(Callback):
         print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
         print('roc_auc_score', roc_auc)
 
-fittedModel = model.fit(X_train, Y_train, batch_size = 100, epochs = 300, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 100, epochs = 2000, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
