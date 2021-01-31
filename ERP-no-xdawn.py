@@ -87,6 +87,7 @@ from sklearn.linear_model import LogisticRegression
 from matplotlib import pyplot as plt
 plt.switch_backend('agg')
 
+from sklearn.metrics import confusion_matrix
 
 ##################### Process, filter and epoch the data ######################
 data_path = sample.data_path()
@@ -210,4 +211,5 @@ plt.figure(0)
 plot_confusion_matrix(preds, Y_test.argmax(axis = -1), names, title = 'EEGNet-8,2')
 plt.savefig('plot-EEG')
 
-
+print('confusion_matrix')
+print(confusion_matrix(Y_test, preds))
