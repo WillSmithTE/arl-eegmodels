@@ -214,7 +214,7 @@ class OnEpochEndCallback(Callback):
         print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
         print('roc_auc_score', roc_auc)
 
-fittedModel = model.fit(X_train, Y_train, batch_size = 2000, epochs = 300, 
+fittedModel = model.fit(X_train, Y_train, batch_size = 100, epochs = 300, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
