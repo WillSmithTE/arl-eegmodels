@@ -38,6 +38,7 @@ dependencies:
     - pyriemann
     - eeg-filters
     - tensorflow
+    - oct2py
 
 prefix: /Users/williamsmith/opt/miniconda3/envs/arl-eeg
 

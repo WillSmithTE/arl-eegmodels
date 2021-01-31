@@ -22,7 +22,7 @@ for char=1:19215   % 5340
 
         sampleRate = 256; % Hz
         lowEnd = 0.5; % Hz
-        highEnd = 40; % Hz
+        highEnd = 20; % Hz
         filterOrder = 2; 
         [b, a] = butter(filterOrder, [lowEnd highEnd]/(sampleRate/2)); % Generate filter coefficients
         Filtered_signal(chan,:,char) = filtfilt(b, a, x11); % Apply filter to data    
@@ -31,7 +31,7 @@ for char=1:19215   % 5340
     end
 end
 
-% save('filtered_erp1', 'Filtered_signal')
+% save('filtered_erp1_0.5_20', 'Filtered_signal')
 %  Signal=Filtered_signal;
 %  Flashing=double(Flashing);
 %  StimulusCode=double(StimulusCode);

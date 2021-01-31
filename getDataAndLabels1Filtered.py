@@ -52,7 +52,7 @@ def getDataAndLabels():
 import scipy.io
 
 def getFilteredData():
-    return scipy.io.loadmat('filtered_erp1')['Filtered_signal']
+    return scipy.io.loadmat('filtered_erp1_0.5_20')['Filtered_signal']
 
 def channelsSamplesTrialKernels(data):
     return data.shape[0], data.shape[1], data.shape[2], 1
