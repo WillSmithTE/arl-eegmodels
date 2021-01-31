@@ -68,12 +68,10 @@
 
 import numpy as np
 
-# mne imports
 import mne
 from mne import io
 from mne.datasets import sample
 
-# EEGNet-specific imports
 from EEGModels import EEGNet
 
 from tensorflow import py_func, double
@@ -89,13 +87,11 @@ from sklearn.utils import class_weight
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_auc_score
 
-# tools for plotting confusion matrices
 import matplotlib.pyplot as plt
 plt.switch_backend('agg')
 
 from util import read, save
 
-# MINE
 from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 try:
@@ -129,23 +125,15 @@ except:
 def getClassWeights(arg):
     return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
 
-# the syntax is {class_1:weight_1, class_2:weight_2,...}. Here just setting
-# the weights all to be 1
 # class_weights = {1:1, 0:1}
 class_weights = getClassWeights(y_train)
 # class_weights = {0:22, 1:1}
-
 print('class_weights', class_weights)
+
 # convert labels to one-hot encodings.
 Y_train      = np_utils.to_categorical(y_train)
 Y_validate   = np_utils.to_categorical(y_validate)
 Y_test       = np_utils.to_categorical(y_test)
-
-# convert data to NCHW (trials, kernels, channels, samples) format. Data 
-# contains 60 channels and 151 time-points. Set the number of kernels to 1.
-# X_train      = X_train.reshape(X_train.shape[0], kernels, chans, samples)
-# X_validate   = X_validate.reshape(X_validate.shape[0], kernels, chans, samples)
-# X_test       = X_test.reshape(X_test.shape[0], kernels, chans, samples)
    
 print('X_train shape:', X_train.shape)
 print('X_validate shape:', X_validate.shape)
@@ -175,29 +163,10 @@ optimizer = Adam(lr=learningRate)
 
 metrics = ['accuracy']
 
-# compile the model and set the optimizers
-model.compile(loss='categorical_crossentropy', optimizer=optimizer, 
-              metrics = metrics)
-
-# count number of parameters in the model
-numParams    = model.count_params()    
+model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics = metrics) 
 
 # set a valid path for your system to record model checkpoints
-checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1,
-                               save_best_only=True)
-
-###############################################################################
-# if the classification task was imbalanced (significantly more trials in one
-# class versus the others) you can assign a weight to each class during 
-# optimization to balance it out. This data is approximately balanced so we 
-# don't need to do this, but is shown here for illustration/completeness. 
-###############################################################################
-
-################################################################################
-# fit the model. Due to very small sample sizes this can get
-# pretty noisy run-to-run, but most runs should be comparable to xDAWN + 
-# Riemannian geometry classification (below)
-################################################################################
+checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1, save_best_only=True)
 
 class OnEpochEndCallback(Callback):
     def on_epoch_end(self, epoch, logs=None):
@@ -220,22 +189,6 @@ fittedModel = model.fit(X_train, Y_train, batch_size = 1000, epochs = 300,
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
-# load optimal weights
-# model.load_weights('/tmp/checkpoint.h5')
-
-###############################################################################
-# can alternatively used the weights provided in the repo. If so it should get
-# you 93% accuracy. Change the WEIGHTS_PATH variable to wherever it is on your
-# system.
-###############################################################################
-
-# WEIGHTS_PATH = /path/to/EEGNet-8-2-weights.h5 
-# model.load_weights(WEIGHTS_PATH)
-
-###############################################################################
-# make prediction on test set.
-###############################################################################
-
 probs       = model.predict(X_test)
 preds       = probs.argmax(axis = -1)  
 acc         = np.mean(preds == Y_test.argmax(axis=-1))
@@ -248,7 +201,6 @@ if getNumClasses() == 2:
 print('confusion_matrix')
 print(confusion_matrix(y_test, preds))
 
-# plot the confusion matrices for both classifiers
 names        = getConfusionMatrixNames()
 
 # plot loss
