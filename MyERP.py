@@ -186,8 +186,11 @@ class OnEpochEndCallback(Callback):
         print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
         print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
         print('roc_auc_score', roc_auc)
+        
+epochs = 600
+batchSize = 1000
 
-fittedModel = model.fit(X_train, Y_train, batch_size = 1000, epochs = 300, 
+fittedModel = model.fit(X_train, Y_train, batch_size = batchSize, epochs = epochs, 
                         verbose = 2, validation_data=(X_validate, Y_validate),
                         callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
