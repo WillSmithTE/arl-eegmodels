@@ -133,10 +133,36 @@ class ERPExperiment():
         print(self.X_test.shape[0], 'test samples')
 
         print("chans:", self.chans, "samples:", self.samples)
+        
+    def multiTrainAndPredict(
+        self,
+        numberExperiments = 2,
+        epochs = 300,
+        batchSize = 1000,
+        class_weights = None,
+        F1 = 8,
+        D = 2,
+        kernLength = None,
+        dropoutRate = 0.5,
+        learningRate = 0.001,
+    ):
+        i = 0
+        while i < numberExperiments:
+            self.trainAndPredict(
+                epochs,
+                batchSize,
+                class_weights,
+                F1,
+                D,
+                kernLength,
+                dropoutRate,
+                learningRate,
+            )
+            i += 1
 
     def trainAndPredict(
         self,
-        epochs = 600,
+        epochs = 300,
         batchSize = 1000,
         class_weights = None,
         F1 = 8,
