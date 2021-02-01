@@ -146,12 +146,14 @@ class ERPExperiment():
         class_weights = None,
         F1 = 8,
         D = 2,
-        kernLength = int(samples/2),
+        kernLength = None,
         dropoutRate = 0.5,
         learningRate = 0.001,
     ):
         if class_weights is None:
             class_weights = getClassWeights(self.y_train)
+        if kernLength is None:
+            kernLength = int(samples/2)
         # class_weights = {1:1, 0:1}
         # class_weights = {0:22, 1:1}
 
