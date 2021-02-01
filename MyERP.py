@@ -93,127 +93,131 @@ plt.switch_backend('agg')
 from util import read, save
 
 from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Subj1Filtered import isCrossSubject
 
-try:
-    from getDataAndLabels1Subj1Filtered import isCrossSubject
-    [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
-    chans, samples, trials, kernels = channelsSamplesTrialKernels(X_train)
-    [X_train, X_validate, X_test] = list(map(lambda x: x.reshape(x.shape[2], kernels, chans, samples), [X_train, X_validate, X_test]))
-except:
-# extract raw data. scale by 1000 due to scaling sensitivity in deep learning
-    [data, labels] = getDataAndLabels()
-    X = data *1000 # format is in (channels, samples, trials)
-    y = labels
+class ERPExperiment():
+    def __init__(self):
+        try:
+            [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
+            chans, samples, trials, kernels = channelsSamplesTrialKernels(X_train)
+            [X_train, X_validate, X_test] = list(map(lambda x: x.reshape(x.shape[2], kernels, chans, samples), [X_train, X_validate, X_test]))
+        except:
+        # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
+            [data, labels] = getDataAndLabels()
+            X = data *1000 # format is in (channels, samples, trials)
+            y = labels
 
-    chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
+            self.chans, self.samples, self.trials, self.kernels = channelsSamplesTrialKernels(data)
 
-    X = X.reshape(trials, kernels, chans, samples)
+            X = X.reshape(trials, kernels, chans, samples)
 
-    half = (trials//4)*2
-    threeQuarters = (trials//4) * 3
+            half = (trials//4)*2
+            threeQuarters = (trials//4) * 3
 
-    # take 50/25/25 percent of the data to train/validate/test
-    X_train      = X[0:half,]
-    y_train      = y[0:half]
-    X_validate   = X[half:threeQuarters,]
-    y_validate   = y[half:threeQuarters]
-    X_test       = X[threeQuarters:,]
-    y_test       = y[threeQuarters:]
+            # take 50/25/25 percent of the data to train/validate/test
+            self.X_train      = X[0:half,]
+            self.y_train      = y[0:half]
+            self.X_validate   = X[half:threeQuarters,]
+            self.y_validate   = y[half:threeQuarters]
+            self.X_test       = X[threeQuarters:,]
+            self.y_test       = y[threeQuarters:]
 
-############################# EEGNet portion ##################################
+        # convert labels to one-hot encodings.
+            self.Y_train      = np_utils.to_categorical(y_train)
+            self.Y_validate   = np_utils.to_categorical(y_validate)
+            self.Y_test       = np_utils.to_categorical(y_test)
+        
+            print('X_train shape:', self.X_train.shape)
+            print('X_validate shape:', self.X_validate.shape)
+            print('X_testshape:', self.X_test.shape)
+            print(self.X_train.shape[0], 'train samples')
+            print(self.X_validate.shape[0], 'validate samples')
+            print(self.X_test.shape[0], 'test samples')
+
+            print("chans:", self.chans, "samples:", self.samples)
 
 
-# convert labels to one-hot encodings.
-Y_train      = np_utils.to_categorical(y_train)
-Y_validate   = np_utils.to_categorical(y_validate)
-Y_test       = np_utils.to_categorical(y_test)
-   
-print('X_train shape:', X_train.shape)
-print('X_validate shape:', X_validate.shape)
-print('X_testshape:', X_test.shape)
-print(X_train.shape[0], 'train samples')
-print(X_validate.shape[0], 'validate samples')
-print(X_test.shape[0], 'test samples')
+    def trainAndPredict(
+        self,
+        epochs = 600,
+        batchSize = 1000,
+        class_weights = getClassWeights(y_train),
+        F1 = 8,
+        D = 2,
+        kernLength = int(samples/2),
+        dropoutRate = 0.5,
+        learningRate = 0.001,
+    ):
+        # class_weights = {1:1, 0:1}
+        # class_weights = {0:22, 1:1}
 
-print("chans:", chans, "samples:", samples)
+        # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
+        # model configurations may do better, but this is a good starting point)
 
-def getClassWeights(arg):
-    return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
+        F2 = F1 * D
+        
+        print('F1 (temporal filters)', F1)
+        print('D (spatial filters', D)
+        print('F2 (pointwise filters', F2)
+        print('kernLength', kernLength)
+        print('learningRate', learningRate)
+        print('class_weights', class_weights)
+        print('epochs', epochs)
+        print('batchSize', batchSize)
 
-def trainAndPredict(
-    epochs = 600,
-    batchSize = 1000,
-    class_weights = getClassWeights(y_train),
-    F1 = 8,
-    D = 2,
-    kernLength = int(samples/2),
-    dropoutRate = 0.5,
-    learningRate = 0.001,
-):
-    # class_weights = {1:1, 0:1}
-    # class_weights = {0:22, 1:1}
+        model = EEGNet(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
+                    dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
+                    dropoutType = 'Dropout')
 
-    # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
-    # model configurations may do better, but this is a good starting point)
+        optimizer = Adam(lr=learningRate)
 
-    F2 = F1 * D
-    
-    print('F1 (temporal filters)', F1)
-    print('D (spatial filters', D)
-    print('F2 (pointwise filters', F2)
-    print('kernLength', kernLength)
-    print('learningRate', learningRate)
-    print('class_weights', class_weights)
-    print('epochs', epochs)
-    print('batchSize', batchSize)
+        metrics = ['accuracy']
 
-    model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-                dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
-                dropoutType = 'Dropout')
+        model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics = metrics) 
 
-    optimizer = Adam(lr=learningRate)
+        # set a valid path for your system to record model checkpoints
+        checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1, save_best_only=True)
 
-    metrics = ['accuracy']
+        class OnEpochEndCallback(Callback):
+            def on_epoch_end(self, epoch, logs=None):
+                x_test = self.validation_data[0]
+                y_test = self.validation_data[1]
+                # x_test, y_test = self.validation_data
+                predictions = self.model.predict(x_test)
+                y_test = np.argmax(y_test, axis=-1)
+                predictions = np.argmax(predictions, axis=-1)
+                c = confusion_matrix(y_test, predictions)
 
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics = metrics) 
+                roc_auc = roc_auc_score(y_test, predictions)
 
-    # set a valid path for your system to record model checkpoints
-    checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1, save_best_only=True)
+                print('Confusion matrix:\n', c)
+                print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
+                print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
+                print('roc_auc_score', roc_auc)
+                
+        fittedModel = model.fit(self.X_train, self.Y_train, batch_size = batchSize, epochs = epochs, 
+                                verbose = 2, validation_data=(self.X_validate, self.Y_validate),
+                                callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
-    class OnEpochEndCallback(Callback):
-        def on_epoch_end(self, epoch, logs=None):
-            x_test = self.validation_data[0]
-            y_test = self.validation_data[1]
-            # x_test, y_test = self.validation_data
-            predictions = self.model.predict(x_test)
-            y_test = np.argmax(y_test, axis=-1)
-            predictions = np.argmax(predictions, axis=-1)
-            c = confusion_matrix(y_test, predictions)
+        probs       = model.predict(self.X_test)
+        preds       = probs.argmax(axis = -1)  
+        acc         = np.mean(preds == self.Y_test.argmax(axis=-1))
+        print("Classification accuracy: %f " % (acc))
 
-            roc_auc = roc_auc_score(y_test, predictions)
-
-            print('Confusion matrix:\n', c)
-            print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
-            print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
+        if getNumClasses() == 2:
+            roc_auc = roc_auc_score(self.y_test, preds)
             print('roc_auc_score', roc_auc)
-            
-    fittedModel = model.fit(X_train, Y_train, batch_size = batchSize, epochs = epochs, 
-                            verbose = 2, validation_data=(X_validate, Y_validate),
-                            callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
-    probs       = model.predict(X_test)
-    preds       = probs.argmax(axis = -1)  
-    acc         = np.mean(preds == Y_test.argmax(axis=-1))
-    print("Classification accuracy: %f " % (acc))
+        print('confusion_matrix')
+        print(confusion_matrix(self.y_test, preds))
+        log(epochs, batchSize, sampleRate, kernLength, dropout, learningRate, roc_auc, accuracy, F1, D)
 
-    if getNumClasses() == 2:
-        roc_auc = roc_auc_score(y_test, preds)
-        print('roc_auc_score', roc_auc)
-
-    print('confusion_matrix')
-    print(confusion_matrix(y_test, preds))
-    
-    return (roc_auc, acc)
+from datetime import datetime
+from csvUtil import writeRow
+def log(epochs, batchSize, sampleRate, kernLength, dropout, learning, roc_auc, accuracy, F1, D):
+    date = datetime.today().strftime('%d/%m/%y')
+    dataset = 'all'
+    writeRow([date, epochs, dataset, batchSize, sampleRate, kernLength, dropout, learning, roc_auc, accuracy, F1, D])
 
 # names        = getConfusionMatrixNames()
 
@@ -226,3 +230,6 @@ def trainAndPredict(
 # plt.xlabel('epoch')
 # plt.legend(['train', 'test'], loc='upper left')
 # plt.savefig('plot-loss')
+
+def getClassWeights(arg):
+    return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))

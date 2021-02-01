@@ -1,5 +1,5 @@
-from MyERP import trainAndPredict
+from MyERP import ERPExperiment
 from csvUtil import writeRow
 
-(roc_auc, accuracy) = trainAndPredict(epochs = 10)
-writeRow([roc_auc, accuracy])
+experiment = ERPExperiment()
+experiment.trainAndPredict(epochs = 10)
