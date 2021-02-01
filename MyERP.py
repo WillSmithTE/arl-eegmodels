@@ -143,13 +143,15 @@ class ERPExperiment():
         self,
         epochs = 600,
         batchSize = 1000,
-        class_weights = getClassWeights(self.y_train),
+        class_weights = None,
         F1 = 8,
         D = 2,
         kernLength = int(samples/2),
         dropoutRate = 0.5,
         learningRate = 0.001,
     ):
+        if class_weights is None:
+            class_weights = getClassWeights(self.y_train)
         # class_weights = {1:1, 0:1}
         # class_weights = {0:22, 1:1}
 
