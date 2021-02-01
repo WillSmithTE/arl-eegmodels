@@ -125,9 +125,9 @@ class ERPExperiment():
             self.y_test       = y[threeQuarters:]
 
         # convert labels to one-hot encodings.
-            self.Y_train      = np_utils.to_categorical(y_train)
-            self.Y_validate   = np_utils.to_categorical(y_validate)
-            self.Y_test       = np_utils.to_categorical(y_test)
+            self.Y_train      = np_utils.to_categorical(self.y_train)
+            self.Y_validate   = np_utils.to_categorical(self.y_validate)
+            self.Y_test       = np_utils.to_categorical(self.y_test)
         
             print('X_train shape:', self.X_train.shape)
             print('X_validate shape:', self.X_validate.shape)
@@ -143,7 +143,7 @@ class ERPExperiment():
         self,
         epochs = 600,
         batchSize = 1000,
-        class_weights = getClassWeights(y_train),
+        class_weights = getClassWeights(self.y_train),
         F1 = 8,
         D = 2,
         kernLength = int(samples/2),
