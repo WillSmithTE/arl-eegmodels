@@ -93,7 +93,6 @@ plt.switch_backend('agg')
 from util import read, save
 
 from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
-from getDataAndLabels1Subj1Filtered import isCrossSubject
 
 class ERPExperiment():
     def __init__(self):
