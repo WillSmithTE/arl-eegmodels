@@ -94,6 +94,9 @@ from util import read, save
 
 from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
+def getClassWeights(arg):
+    return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
+
 class ERPExperiment():
     def __init__(self):
         try:
@@ -229,6 +232,3 @@ def log(epochs, batchSize, sampleRate, kernLength, dropout, learning, roc_auc, a
 # plt.xlabel('epoch')
 # plt.legend(['train', 'test'], loc='upper left')
 # plt.savefig('plot-loss')
-
-def getClassWeights(arg):
-    return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
