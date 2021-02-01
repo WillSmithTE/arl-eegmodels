@@ -1,0 +1,2 @@
+date,epochs,dataset,batchSize,sampleRate,kernLength,dropout,learning,roc_auc,accuracy,
+,hi,123

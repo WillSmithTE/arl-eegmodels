@@ -122,13 +122,6 @@ except:
 
 ############################# EEGNet portion ##################################
 
-def getClassWeights(arg):
-    return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
-
-# class_weights = {1:1, 0:1}
-class_weights = getClassWeights(y_train)
-# class_weights = {0:22, 1:1}
-print('class_weights', class_weights)
 
 # convert labels to one-hot encodings.
 Y_train      = np_utils.to_categorical(y_train)
@@ -144,76 +137,92 @@ print(X_test.shape[0], 'test samples')
 
 print("chans:", chans, "samples:", samples)
 
-# configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
-# model configurations may do better, but this is a good starting point)
+def getClassWeights(arg):
+    return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
 
-F1 = 8
-D = 2
-F2 = F1 * D
+def trainAndPredict(
+    epochs = 600,
+    batchSize = 1000,
+    class_weights = getClassWeights(y_train),
+    F1 = 8,
+    D = 2,
+    kernLength = int(samples/2),
+    dropoutRate = 0.5,
+    learningRate = 0.001,
+):
+    # class_weights = {1:1, 0:1}
+    # class_weights = {0:22, 1:1}
 
-kernLength = int(samples/2)
+    # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
+    # model configurations may do better, but this is a good starting point)
 
-dropoutRate = 0.5
+    F2 = F1 * D
+    
+    print('F1 (temporal filters)', F1)
+    print('D (spatial filters', D)
+    print('F2 (pointwise filters', F2)
+    print('kernLength', kernLength)
+    print('learningRate', learningRate)
+    print('class_weights', class_weights)
+    print('epochs', epochs)
+    print('batchSize', batchSize)
 
-model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
-               dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
-               dropoutType = 'Dropout')
+    model = EEGNet(nb_classes = getNumClasses(), Chans = chans, Samples = samples, 
+                dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
+                dropoutType = 'Dropout')
 
-learningRate = 0.001
+    optimizer = Adam(lr=learningRate)
 
-optimizer = Adam(lr=learningRate)
+    metrics = ['accuracy']
 
-metrics = ['accuracy']
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics = metrics) 
 
-model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics = metrics) 
+    # set a valid path for your system to record model checkpoints
+    checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1, save_best_only=True)
 
-# set a valid path for your system to record model checkpoints
-checkpointer = ModelCheckpoint(filepath='/tmp/checkpoint.h5', verbose=1, save_best_only=True)
+    class OnEpochEndCallback(Callback):
+        def on_epoch_end(self, epoch, logs=None):
+            x_test = self.validation_data[0]
+            y_test = self.validation_data[1]
+            # x_test, y_test = self.validation_data
+            predictions = self.model.predict(x_test)
+            y_test = np.argmax(y_test, axis=-1)
+            predictions = np.argmax(predictions, axis=-1)
+            c = confusion_matrix(y_test, predictions)
 
-class OnEpochEndCallback(Callback):
-    def on_epoch_end(self, epoch, logs=None):
-        x_test = self.validation_data[0]
-        y_test = self.validation_data[1]
-        # x_test, y_test = self.validation_data
-        predictions = self.model.predict(x_test)
-        y_test = np.argmax(y_test, axis=-1)
-        predictions = np.argmax(predictions, axis=-1)
-        c = confusion_matrix(y_test, predictions)
+            roc_auc = roc_auc_score(y_test, predictions)
 
-        roc_auc = roc_auc_score(y_test, predictions)
+            print('Confusion matrix:\n', c)
+            print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
+            print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
+            print('roc_auc_score', roc_auc)
+            
+    fittedModel = model.fit(X_train, Y_train, batch_size = batchSize, epochs = epochs, 
+                            verbose = 2, validation_data=(X_validate, Y_validate),
+                            callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
-        print('Confusion matrix:\n', c)
-        print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
-        print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
+    probs       = model.predict(X_test)
+    preds       = probs.argmax(axis = -1)  
+    acc         = np.mean(preds == Y_test.argmax(axis=-1))
+    print("Classification accuracy: %f " % (acc))
+
+    if getNumClasses() == 2:
+        roc_auc = roc_auc_score(y_test, preds)
         print('roc_auc_score', roc_auc)
-        
-epochs = 600
-batchSize = 1000
 
-fittedModel = model.fit(X_train, Y_train, batch_size = batchSize, epochs = epochs, 
-                        verbose = 2, validation_data=(X_validate, Y_validate),
-                        callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
+    print('confusion_matrix')
+    print(confusion_matrix(y_test, preds))
+    
+    return (roc_auc, acc)
 
-probs       = model.predict(X_test)
-preds       = probs.argmax(axis = -1)  
-acc         = np.mean(preds == Y_test.argmax(axis=-1))
-print("Classification accuracy: %f " % (acc))
-
-if getNumClasses() == 2:
-    roc_auc = roc_auc_score(y_test, preds)
-    print('roc_auc_score', roc_auc)
-
-print('confusion_matrix')
-print(confusion_matrix(y_test, preds))
-
-names        = getConfusionMatrixNames()
+# names        = getConfusionMatrixNames()
 
 # plot loss
-plt.figure(0)
-plt.plot(fittedModel.history['loss'])
-plt.plot(fittedModel.history['val_loss'])
-plt.title('Model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.savefig('plot-loss')
+# plt.figure(0)
+# plt.plot(fittedModel.history['loss'])
+# plt.plot(fittedModel.history['val_loss'])
+# plt.title('Model loss')
+# plt.ylabel('loss')
+# plt.xlabel('epoch')
+# plt.legend(['train', 'test'], loc='upper left')
+# plt.savefig('plot-loss')
