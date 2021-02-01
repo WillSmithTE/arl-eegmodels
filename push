@@ -1,5 +1,5 @@
 #!/bin/bash
 
 git add .
-git commit -m "plot"
+git commit -m "commit all"
 git push
