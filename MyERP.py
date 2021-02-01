@@ -99,45 +99,40 @@ def getClassWeights(arg):
 
 class ERPExperiment():
     def __init__(self):
-        try:
-            [X_train, X_validate, X_test, y_train, y_validate, y_test] = getDataAndLabels()
-            chans, samples, trials, kernels = channelsSamplesTrialKernels(X_train)
-            [X_train, X_validate, X_test] = list(map(lambda x: x.reshape(x.shape[2], kernels, chans, samples), [X_train, X_validate, X_test]))
-        except:
-        # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
-            [data, labels] = getDataAndLabels()
-            X = data *1000 # format is in (channels, samples, trials)
-            y = labels
+    # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
+        [data, labels] = getDataAndLabels()
+        X = data *1000 # format is in (channels, samples, trials)
+        y = labels
 
-            self.chans, self.samples, self.trials, self.kernels = channelsSamplesTrialKernels(data)
+        self.chans, self.samples, self.trials, self.kernels = channelsSamplesTrialKernels(data)
 
-            X = X.reshape(trials, kernels, chans, samples)
+    #pylint: disable=too-many-function-args
+        X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
 
-            half = (trials//4)*2
-            threeQuarters = (trials//4) * 3
+        half = (self.trials//4)*2
+        threeQuarters = (self.trials//4) * 3
 
-            # take 50/25/25 percent of the data to train/validate/test
-            self.X_train      = X[0:half,]
-            self.y_train      = y[0:half]
-            self.X_validate   = X[half:threeQuarters,]
-            self.y_validate   = y[half:threeQuarters]
-            self.X_test       = X[threeQuarters:,]
-            self.y_test       = y[threeQuarters:]
+        # take 50/25/25 percent of the data to train/validate/test
+        self.X_train      = X[0:half,]
+        self.y_train      = y[0:half]
+        self.X_validate   = X[half:threeQuarters,]
+        self.y_validate   = y[half:threeQuarters]
+        self.X_test       = X[threeQuarters:,]
+        self.y_test       = y[threeQuarters:]
 
-        # convert labels to one-hot encodings.
-            self.Y_train      = np_utils.to_categorical(self.y_train)
-            self.Y_validate   = np_utils.to_categorical(self.y_validate)
-            self.Y_test       = np_utils.to_categorical(self.y_test)
-        
-            print('X_train shape:', self.X_train.shape)
-            print('X_validate shape:', self.X_validate.shape)
-            print('X_testshape:', self.X_test.shape)
-            print(self.X_train.shape[0], 'train samples')
-            print(self.X_validate.shape[0], 'validate samples')
-            print(self.X_test.shape[0], 'test samples')
+    # convert labels to one-hot encodings.
+        self.Y_train      = np_utils.to_categorical(self.y_train)
+        self.Y_validate   = np_utils.to_categorical(self.y_validate)
+        self.Y_test       = np_utils.to_categorical(self.y_test)
+    
+        print('X_train shape:', self.X_train.shape)
+        print('X_validate shape:', self.X_validate.shape)
+        print('X_testshape:', self.X_test.shape)
+        print(self.X_train.shape[0], 'train samples')
+        print(self.X_validate.shape[0], 'validate samples')
+        print(self.X_test.shape[0], 'test samples')
 
-            print("chans:", self.chans, "samples:", self.samples)
-
+        print("chans:", self.chans, "samples:", self.samples)
 
     def trainAndPredict(
         self,
@@ -153,7 +148,7 @@ class ERPExperiment():
         if class_weights is None:
             class_weights = getClassWeights(self.y_train)
         if kernLength is None:
-            kernLength = int(samples/2)
+            kernLength = int(self.samples/2)
         # class_weights = {1:1, 0:1}
         # class_weights = {0:22, 1:1}
 
@@ -201,7 +196,7 @@ class ERPExperiment():
                 print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
                 print('roc_auc_score', roc_auc)
                 
-        fittedModel = model.fit(self.X_train, self.Y_train, batch_size = batchSize, epochs = epochs, 
+        model.fit(self.X_train, self.Y_train, batch_size = batchSize, epochs = epochs, 
                                 verbose = 2, validation_data=(self.X_validate, self.Y_validate),
                                 callbacks=[checkpointer, OnEpochEndCallback()], class_weight = class_weights)
 
@@ -216,7 +211,7 @@ class ERPExperiment():
 
         print('confusion_matrix')
         print(confusion_matrix(self.y_test, preds))
-        log(epochs, batchSize, sampleRate, kernLength, dropout, learningRate, roc_auc, accuracy, F1, D)
+        log(epochs, batchSize, self.samples, kernLength, dropoutRate, learningRate, roc_auc, acc, F1, D)
 
 from datetime import datetime
 from csvUtil import writeRow
