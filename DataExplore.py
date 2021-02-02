@@ -33,3 +33,6 @@ import pandas as pd
 def getCorrelations():
     df = pd.read_csv('~/Downloads/results_all.csv')
     return df.corr()
+
+def getGroupedStats(data, column = 'Batch size', sortColumn = 'weighted comb'):
+    return data.groupby(column).mean().reset_index().sort_values(sortColumn, ascending=False)
