@@ -97,6 +97,10 @@ from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKern
 def getClassWeights(arg):
     return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
 
+def shuffle(X, y):
+    indexes = np.random.permutation(len(X))
+    return (X[indexes], y[indexes])
+
 class ERPExperiment():
     def __init__(self):
     # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
@@ -108,6 +112,8 @@ class ERPExperiment():
 
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
+        
+        X, y = shuffle(X, y)
 
         half = (self.trials//4)*2
         threeQuarters = (self.trials//4) * 3
