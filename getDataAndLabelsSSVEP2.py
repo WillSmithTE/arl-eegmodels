@@ -23,7 +23,7 @@ def getDataAndLabels():
             if data is None:
                 data = subjectData
             else:
-                data = np.concatenate(np.concatenate([data, subjectData], axis=-1))
+                data = np.concatenate([data, subjectData], axis=-1)
             labels = labels + subjectLabels
         labels = np.array(labels)
         save(data, DATA_PATH)
