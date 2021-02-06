@@ -144,13 +144,14 @@ class SSVEPExperiment():
         self,
         numberExperiments = 2,
         epochs = 300,
-        batchSize = 1000,
+        batchSize = 16,
         class_weights = None,
-        F1 = 8,
-        D = 2,
+        F1 = 96,
+        D = 1,
         kernLength = None,
         dropoutRate = 0.5,
         learningRate = 0.001,
+        F2 = 96
     ):
         i = 0
         while i < numberExperiments:
@@ -168,15 +169,15 @@ class SSVEPExperiment():
 
     def trainAndPredict(
         self,
-        epochs = 300,
-        batchSize = 1000,
-        class_weights = None,
-        F1 = 96,
-        D = 1,
-        kernLength = None,
-        dropoutRate = 0.5,
-        learningRate = 0.001,
-        F2 = 96
+        epochs,
+        batchSize,
+        class_weights,
+        F1,
+        D,
+        kernLength,
+        dropoutRate,
+        learningRate,
+        F2
     ):
         if class_weights is None:
             class_weights = getClassWeights(self.y_train)
