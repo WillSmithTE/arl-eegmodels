@@ -1,1 +1,1 @@
-date,epochs,dataset,batchSize,sampleRate,kernLength,dropout,learning,roc_auc,accuracy,f1,D
+date,epochs,dataset,batchSize,sampleRate,kernLength,dropout,learning,accuracy,f1,D

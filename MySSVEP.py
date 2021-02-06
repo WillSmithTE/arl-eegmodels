@@ -244,14 +244,14 @@ class SSVEPExperiment():
 
         print('confusion_matrix')
         print(confusion_matrix(self.y_test, preds))
-        # log(epochs, batchSize, self.samples, kernLength, dropoutRate, learningRate, roc_auc, acc, F1, D)
+        log(epochs, batchSize, self.samples, kernLength, dropoutRate, learningRate, acc, F1, D)
 
 from datetime import datetime
 from csvUtil import writeRow
-def log(epochs, batchSize, sampleRate, kernLength, dropout, learning, roc_auc, accuracy, F1, D):
+def log(epochs, batchSize, sampleRate, kernLength, dropout, learning, accuracy, F1, D):
     date = datetime.today().strftime('%d/%m/%y')
     dataset = 'all'
-    writeRow([date, epochs, dataset, batchSize, sampleRate, kernLength, dropout, learning, roc_auc, accuracy, F1, D])
+    writeRow([date, epochs, dataset, batchSize, sampleRate, kernLength, dropout, learning, accuracy, F1, D], 'results_ssvep.csv')
 
 # names        = getConfusionMatrixNames()
 
