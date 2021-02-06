@@ -12,5 +12,5 @@ from csvUtil import writeRow
 # experiment.multiTrainAndPredict(batchSize=4000, dropoutRate=0.6, F1=16, D=1, learningRate=0.001, numberExperiments=4, epochs=100)
 # experiment.multiTrainAndPredict(batchSize=4000, dropoutRate=0.6, F1=16, D=1, learningRate=0.001, numberExperiments=4, epochs=100)
 
-ssvepExperiment = ERPExperiment()
+ssvepExperiment = SSVEPExperiment()
 ssvepExperiment.multiTrainAndPredict()
