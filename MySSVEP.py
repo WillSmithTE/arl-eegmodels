@@ -242,7 +242,7 @@ class SSVEPExperiment():
 
         print('confusion_matrix')
         print(confusion_matrix(self.y_test, preds))
-        log(epochs, batchSize, self.samples, kernLength, dropoutRate, learningRate, roc_auc, acc, F1, D)
+        # log(epochs, batchSize, self.samples, kernLength, dropoutRate, learningRate, roc_auc, acc, F1, D)
 
 from datetime import datetime
 from csvUtil import writeRow
