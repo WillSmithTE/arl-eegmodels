@@ -221,10 +221,10 @@ class SSVEPExperiment():
                 c = confusion_matrix(y_test, predictions)
 
                 # roc_auc = roc_auc_score(y_test, predictions)
-
                 print('Confusion matrix:\n', c)
-                print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
-                print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
+
+                # print('sensitivity', c[0, 0] / (c[0, 1] + c[0, 0]))
+                # print('specificity', c[1, 1] / (c[1, 1] + c[1, 0]))
                 # print('roc_auc_score', roc_auc)
                 
         model.fit(self.X_train, self.Y_train, batch_size = batchSize, epochs = epochs, 
