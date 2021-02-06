@@ -164,6 +164,7 @@ class SSVEPExperiment():
                 kernLength,
                 dropoutRate,
                 learningRate,
+                F2,
             )
             i += 1
 
