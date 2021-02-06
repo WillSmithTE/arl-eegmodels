@@ -13,25 +13,37 @@ def getFileNames():
         
     return filenames
 
-def getDataAndLabels(filename = getFileNames()[0]):
-    subjectData = scipy.io.loadmat(filename)['data']
+def getDataAndLabels():
     [data, labels] = [read(DATA_PATH), read(LABELS_PATH)]
     if data is None or labels is None:
         data = None
         labels = []
-        for i in range(0, 12):
-            targetData = subjectData[:,:,:,:,i]
-            shape = targetData.shape
-            reshaped = targetData.reshape(shape[0], shape[1], shape[2] * shape[3])
+        for filename in getFileNames():
+            [subjectData, subjectLabels] = getDataAndLabelsForSubject(filename)
             if data is None:
-                data = reshaped
+                data = subjectData
             else:
-                data = np.concatenate([data, reshaped], axis=-1)
-            for _ in range(0, reshaped.shape[-1]):
-                labels.append(i)
+                data = np.concatenate(np.concatenate([data, subjectData], axis=-1))
+            labels = labels + subjectLabels
         labels = np.array(labels)
         save(data, DATA_PATH)
         save(labels, LABELS_PATH)
+    return [data, labels]
+
+def getDataAndLabelsForSubject(filename = getFileNames()[0]):
+    rawData = scipy.io.loadmat(filename)['data']
+    data = None
+    labels = []
+    for i in range(0, 12):
+        targetData = rawData[:,:,:,:,i]
+        shape = targetData.shape
+        reshaped = targetData.reshape(shape[0], shape[1], shape[2] * shape[3])
+        if data is None:
+            data = reshaped
+        else:
+            data = np.concatenate([data, reshaped], axis=-1)
+        for _ in range(0, reshaped.shape[-1]):
+            labels.append(i)
     return [data, labels]
 
 def channelsSamplesTrialKernels(data):
