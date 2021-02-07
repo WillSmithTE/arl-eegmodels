@@ -9,7 +9,7 @@ def downSample(data):
 
     # secs = Signal_A_240.shape[1]/256# Number of seconds in signal
     # samps = int(secs*128)     # Number of samples to downsample
-    samps = 64
+    samps = 128
 
     Signal_A=np.zeros([Signal_A_240.shape[0],samps,Signal_A_240.shape[2]])
 
