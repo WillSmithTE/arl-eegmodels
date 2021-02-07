@@ -20,6 +20,7 @@ def getDataAndLabels():
         data = None
         labels = []
         for filename in filenames:
+            print('getting data from file ' + filename)
             [subjectData, subjectLabels] = getDataAndLabelsForSubject(filename)
             if data is None:
                 data = subjectData
