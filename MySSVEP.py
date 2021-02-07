@@ -97,11 +97,9 @@ from getDataAndLabelsSSVEP2 import getDataAndLabels, channelsSamplesTrialKernels
 def getClassWeights(arg):
     return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
 
-def shuffle(X, y, axis = 0):
-    idx = np.random.rand(*X.shape).argsort(axis=axis)
-    X = np.take_along_axis(X,idx,axis=axis)
-    y = np.take_along_axis(y,idx,axis=axis)
-    return X, y
+def shuffle(X, y):
+    indexes = np.random.permutation(len(X))
+    return (X[indexes], y[indexes])
 
 class SSVEPExperiment():
     def __init__(self):
