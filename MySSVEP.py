@@ -97,9 +97,11 @@ from getDataAndLabelsSSVEP2 import getDataAndLabels, channelsSamplesTrialKernels
 def getClassWeights(arg):
     return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
 
-def shuffle(X, y):
-    indexes = np.random.permutation(len(X))
-    return (X[indexes], y[indexes])
+def shuffle(X, y, axis = 0):
+    idx = np.random.rand(*X.shape).argsort(axis=axis)
+    X = np.take_along_axis(X,idx,axis=axis)
+    y = np.take_along_axis(y,idx,axis=axis)
+    return X, y
 
 class SSVEPExperiment():
     def __init__(self):
@@ -113,7 +115,7 @@ class SSVEPExperiment():
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
         
-        # X, y = shuffle(X, y)
+        X, y = shuffle(X, y)
 
         half = (self.trials//4)*2
         threeQuarters = (self.trials//4) * 3
