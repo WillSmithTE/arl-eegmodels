@@ -1,2 +1,0 @@
-date,epochs,dataset,batchSize,sampleRate,kernLength,dropout,learning,accuracy,f1,D
-06/02/21,300,all,16,710,355,0.5,0.001,0.04297385620915033,96,1
