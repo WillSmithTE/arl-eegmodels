@@ -15,7 +15,8 @@ def getFileNames():
 
 def getDataAndLabels():
     [data, labels] = [read(DATA_PATH), read(LABELS_PATH)]
-    filenames = [getFileNames()[0]]
+    # filenames = [getFileNames()[0]]
+    filenames = getFileNames()
     if data is None or labels is None:
         data = None
         labels = []
