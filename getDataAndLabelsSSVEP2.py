@@ -15,10 +15,11 @@ def getFileNames():
 
 def getDataAndLabels():
     [data, labels] = [read(DATA_PATH), read(LABELS_PATH)]
-    filenames = getFileNames()[0]
+    filenames = [getFileNames()[0]]
     if data is None or labels is None:
         data = None
         labels = []
+        print(filenames)
         for filename in filenames:
             print('getting data from file ' + filename)
             [subjectData, subjectLabels] = getDataAndLabelsForSubject(filename)
