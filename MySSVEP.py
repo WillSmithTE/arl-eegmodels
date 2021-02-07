@@ -150,8 +150,7 @@ class SSVEPExperiment():
         D = 1,
         kernLength = None,
         dropoutRate = 0.5,
-        learningRate = 0.001,
-        F2 = 96
+        learningRate = 0.001
     ):
         i = 0
         while i < numberExperiments:
@@ -163,8 +162,7 @@ class SSVEPExperiment():
                 D,
                 kernLength,
                 dropoutRate,
-                learningRate,
-                F2,
+                learningRate
             )
             i += 1
 
@@ -177,8 +175,7 @@ class SSVEPExperiment():
         D,
         kernLength,
         dropoutRate,
-        learningRate,
-        F2
+        learningRate
     ):
         if class_weights is None:
             class_weights = getClassWeights(self.y_train)
@@ -189,7 +186,8 @@ class SSVEPExperiment():
 
         # configure the EEGNet-8,2,16 model with kernel length of 32 samples (other 
         # model configurations may do better, but this is a good starting point)
-        
+        F2 = F1 * D
+
         print('F1 (temporal filters)', F1)
         print('D (spatial filters', D)
         print('F2 (pointwise filters', F2)
