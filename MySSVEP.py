@@ -249,7 +249,7 @@ from csvUtil import writeRow
 def log(epochs, batchSize, sampleRate, kernLength, dropout, learning, accuracy, F1, D):
     date = datetime.today().strftime('%d/%m/%y')
     dataset = 'all'
-    writeRow([date, epochs, dataset, batchSize, sampleRate, kernLength, dropout, learning, accuracy, F1, D], 'results_ssvep.csv')
+    writeRow([date, epochs, dataset, batchSize, sampleRate, kernLength, dropout, learning, accuracy, F1, D], 'ssvep_results.csv')
 
 # names        = getConfusionMatrixNames()
 
