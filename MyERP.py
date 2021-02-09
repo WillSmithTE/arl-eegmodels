@@ -113,7 +113,7 @@ class ERPExperiment():
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
         
-        # X, y = shuffle(X, y)
+        X, y = shuffle(X, y)
 
         half = (self.trials//4)*2
         threeQuarters = (self.trials//4) * 3
