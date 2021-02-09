@@ -1,0 +1,3 @@
+date,epochs,dataset,batchSize,sampleRate,kernLength,dropout,learning,roc_auc,accuracy,f1,D
+09/02/21,300,all,60,128,64,0.5,0.001,0.639925681255161,0.6627634660421545,8,2
+09/02/21,300,all,60,128,64,0.5,0.001,0.6570189925681253,0.7205308352849337,8,2
