@@ -3,6 +3,7 @@ import numpy as np
 from util import save, read
 from channelPrune import takeOnlyCertainChannels
 from downsample import downSample
+from takeSubset import takeSubset
 
 files = {
     '01': ['1', '2', '3', '4']
@@ -63,9 +64,10 @@ def transformLabels(labels):
     return labels - 1
 
 def transformData(data):
-    filteredData = takeOnlyCertainChannels(data)
-    downSampledData = downSample(filteredData)
-    return downSampledData
+    data = takeOnlyCertainChannels(data)
+    # data = downSample(data)
+    data = takeSubset(data)
+    return data
 
 def getConfusionMatrixNames():
     return ['1', '2']
