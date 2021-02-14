@@ -118,7 +118,7 @@ class ERPExperiment():
         # self.X_train,X_other,self.y_train,y_other=train_test_split(X,y,test_size=0.5,stratify=y)
         # self.X_validate,self.X_test,self.y_validate,self.y_test=train_test_split(X_other,y_other,test_size=0.5,stratify=y_other)
         
-        # X, y = shuffle(X, y)
+        X, y = shuffle(X, y)
 
         half = (self.trials//4)*2
         threeQuarters = (self.trials//4) * 3
