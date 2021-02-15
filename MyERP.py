@@ -252,7 +252,7 @@ class ERPExperiment():
             save(preds, 'preds')
             save(probs, 'probs')
             probsConverted = np.argmax(probs, axis=1)
-            fpr, tpr = roc_curve(self.y_test, probsConverted)
+            fpr, tpr, unused = roc_curve(self.y_test, probsConverted)
             roc_auc = auc(fpr, tpr)
             plt.title('Receiver Operating Characteristic')
             plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
