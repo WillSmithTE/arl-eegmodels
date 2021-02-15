@@ -90,6 +90,8 @@ from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 from sklearn.model_selection import train_test_split
 
+from datetime import datetime
+
 import matplotlib.pyplot as plt
 plt.switch_backend('agg')
 
@@ -257,7 +259,7 @@ class ERPExperiment():
             plt.ylim([0, 1])
             plt.ylabel('True Positive Rate')
             plt.xlabel('False Positive Rate')
-            plt.savefig('roc')
+            plt.savefig('roc_' + datetime.today())
 
             print('roc_auc_score', roc_auc)
 
