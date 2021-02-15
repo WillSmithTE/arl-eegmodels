@@ -106,10 +106,18 @@ def shuffle(X, y):
     indexes = np.random.permutation(len(X))
     return (X[indexes], y[indexes])
 
+def swapOnesAndZeroes(labels):
+    zeroes = (labels == 0)
+    ones = (labels == 1)
+    labels[zeroes] = 1
+    labels[ones] = 0
+    return labels
+
 class ERPExperiment():
     def __init__(self):
     # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
         [data, labels] = getDataAndLabels()
+        # labels = swapOnesAndZeroes(labels)
         X = data *1000 # format is in (channels, samples, trials)
         y = labels
 
@@ -249,7 +257,9 @@ class ERPExperiment():
         if getNumClasses() == 2:
             roc_auc = roc_auc_score(self.y_test, preds)
             
-            probsConverted = probs[:,0]
+            print('roc_auc_score', roc_auc)
+
+            probsConverted = probs[:,1]
             fpr, tpr, unused = roc_curve(self.y_test, probsConverted)
             roc_auc = auc(fpr, tpr)
             plt.title('Receiver Operating Characteristic')
@@ -261,8 +271,6 @@ class ERPExperiment():
             plt.ylabel('True Positive Rate')
             plt.xlabel('False Positive Rate')
             plt.savefig('roc')
-
-            print('roc_auc_score', roc_auc)
 
         print('confusion_matrix')
         print(confusion_matrix(self.y_test, preds))
