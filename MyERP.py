@@ -86,6 +86,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.utils import class_weight
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_auc_score
+import sklearn.metrics as metrics
 from sklearn.model_selection import train_test_split
 
 import matplotlib.pyplot as plt
@@ -244,6 +245,19 @@ class ERPExperiment():
 
         if getNumClasses() == 2:
             roc_auc = roc_auc_score(self.y_test, preds)
+            
+            fpr, tpr, threshold = metrics.roc_curve(self.y_test, preds)
+            roc_auc = metrics.auc(fpr, tpr)
+            plt.title('Receiver Operating Characteristic')
+            plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+            plt.legend(loc = 'lower right')
+            plt.plot([0, 1], [0, 1],'r--')
+            plt.xlim([0, 1])
+            plt.ylim([0, 1])
+            plt.ylabel('True Positive Rate')
+            plt.xlabel('False Positive Rate')
+            plt.savefig('roc')
+
             print('roc_auc_score', roc_auc)
 
         print('confusion_matrix')
