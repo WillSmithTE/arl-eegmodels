@@ -248,10 +248,8 @@ class ERPExperiment():
 
         if getNumClasses() == 2:
             roc_auc = roc_auc_score(self.y_test, preds)
-            save(self.y_test, 'y_test')
-            save(preds, 'preds')
-            save(probs, 'probs')
-            probsConverted = np.argmax(probs, axis=1)
+            
+            probsConverted = probs[:,0]
             fpr, tpr, unused = roc_curve(self.y_test, probsConverted)
             roc_auc = auc(fpr, tpr)
             plt.title('Receiver Operating Characteristic')
