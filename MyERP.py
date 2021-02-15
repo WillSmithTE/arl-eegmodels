@@ -259,7 +259,7 @@ class ERPExperiment():
             plt.ylim([0, 1])
             plt.ylabel('True Positive Rate')
             plt.xlabel('False Positive Rate')
-            plt.savefig('roc_' + str(round(datetime.now().timestamp())))
+            plt.savefig('roc')
 
             print('roc_auc_score', roc_auc)
 
