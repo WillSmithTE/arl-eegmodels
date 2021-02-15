@@ -117,7 +117,7 @@ class ERPExperiment():
     def __init__(self):
     # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
         [data, labels] = getDataAndLabels()
-        # labels = swapOnesAndZeroes(labels)
+        labels = swapOnesAndZeroes(labels)
         X = data *1000 # format is in (channels, samples, trials)
         y = labels
 
