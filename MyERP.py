@@ -89,7 +89,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, Normalizer
 
 from datetime import datetime
 
@@ -114,10 +114,16 @@ def swapOnesAndZeroes(labels):
     labels[ones] = 0
     return labels
 
-def normalise(data):
+def zScoreNormalise(data):
     std_scaler = StandardScaler()
     reshaped = data.reshape(data.shape[0], data.shape[1]*data.shape[2]*data.shape[3])
     reshaped = std_scaler.fit_transform(reshaped)
+    reshaped = reshaped.reshape(data.shape)
+    return reshaped
+
+def l1Normalise(data):
+    reshaped = data.reshape(data.shape[0], data.shape[1]*data.shape[2]*data.shape[3])
+    reshaped = Normalizer(norm='l1').fit_transform(reshaped)
     reshaped = reshaped.reshape(data.shape)
     return reshaped
 
@@ -136,7 +142,7 @@ class ERPExperiment():
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
         
-        X = normalise(X)
+        X = l1Normalise(X)
 
         self.X_train,X_other,self.y_train,y_other=train_test_split(X,y,test_size=0.5,stratify=y)
         self.X_validate,self.X_test,self.y_validate,self.y_test=train_test_split(X_other,y_other,test_size=0.5,stratify=y_other)
