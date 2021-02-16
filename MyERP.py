@@ -127,21 +127,21 @@ class ERPExperiment():
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
         
-        # self.X_train,X_other,self.y_train,y_other=train_test_split(X,y,test_size=0.5,stratify=y)
-        # self.X_validate,self.X_test,self.y_validate,self.y_test=train_test_split(X_other,y_other,test_size=0.5,stratify=y_other)
+        self.X_train,X_other,self.y_train,y_other=train_test_split(X,y,test_size=0.5,stratify=y)
+        self.X_validate,self.X_test,self.y_validate,self.y_test=train_test_split(X_other,y_other,test_size=0.5,stratify=y_other)
         
-        X, y = shuffle(X, y)
+        # X, y = shuffle(X, y)
 
-        half = (self.trials//4)*2
-        threeQuarters = (self.trials//4) * 3
+        # half = (self.trials//4)*2
+        # threeQuarters = (self.trials//4) * 3
 
-        # take 50/25/25 percent of the data to train/validate/test
-        self.X_train      = X[0:half,]
-        self.y_train      = y[0:half]
-        self.X_validate   = X[half:threeQuarters,]
-        self.y_validate   = y[half:threeQuarters]
-        self.X_test       = X[threeQuarters:,]
-        self.y_test       = y[threeQuarters:]
+        # # take 50/25/25 percent of the data to train/validate/test
+        # self.X_train      = X[0:half,]
+        # self.y_train      = y[0:half]
+        # self.X_validate   = X[half:threeQuarters,]
+        # self.y_validate   = y[half:threeQuarters]
+        # self.X_test       = X[threeQuarters:,]
+        # self.y_test       = y[threeQuarters:]
 
     # convert labels to one-hot encodings.
         self.Y_train      = np_utils.to_categorical(self.y_train)
