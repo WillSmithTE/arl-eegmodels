@@ -72,7 +72,7 @@ import mne
 from mne import io
 from mne.datasets import sample
 
-from EEGModels import EEGNet, DeepConvNet
+from EEGModels import EEGNet, DeepConvNet, EEGNet_old
 
 from tensorflow import py_func, double
 
@@ -219,8 +219,11 @@ class ERPExperiment():
         #             dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
         #             dropoutType = 'Dropout')
         
-        model = DeepConvNet(nb_classes=getNumClasses(), Chans=self.chans, Samples=self.samples, dropoutRate=dropoutRate)
+        # model = DeepConvNet(nb_classes=getNumClasses(), Chans=self.chans, Samples=self.samples, dropoutRate=dropoutRate)
         
+        model = EEGNet_old(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
+            dropoutRate = dropoutRate)
+
 
         optimizer = Adam(lr=learningRate)
 
