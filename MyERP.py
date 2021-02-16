@@ -114,24 +114,30 @@ def swapOnesAndZeroes(labels):
     labels[ones] = 0
     return labels
 
+def normalise(data):
+    std_scaler = StandardScaler()
+    reshaped = data.reshape(data.shape[0], data.shape[1]*data.shape[2]*data.shape[3])
+    reshaped = std_scaler.fit_transform(reshaped)
+    reshaped = reshaped.reshape(data.shape)
+    return reshaped
+
 class ERPExperiment():
     def __init__(self):
     # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
-        std_scaler = StandardScaler()
 
         [data, labels] = getDataAndLabels()
         labels = swapOnesAndZeroes(labels)
         X = data *1000 # format is in (channels, samples, trials)
         y = labels
         
-        X = std_scaler.fit_transform(X)
-
         self.chans, self.samples, self.trials, self.kernels = channelsSamplesTrialKernels(data)
         # chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
 
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
         
+        X = normalise(data)
+
         self.X_train,X_other,self.y_train,y_other=train_test_split(X,y,test_size=0.5,stratify=y)
         self.X_validate,self.X_test,self.y_validate,self.y_test=train_test_split(X_other,y_other,test_size=0.5,stratify=y_other)
         
