@@ -260,17 +260,17 @@ class ERPExperiment():
             print('roc_auc_score', roc_auc)
 
             probsConverted = probs[:,1]
-            fpr, tpr, threshholds = roc_curve(self.y_test, probsConverted)
+            fpr, tpr, thresholds = roc_curve(self.y_test, probsConverted)
             
-            gmeans = sqrt(tpr * (1-fpr))
+            gmeans = np.sqrt(tpr * (1-fpr))
             # locate the index of the largest g-mean
-            ix = argmax(gmeans)
+            ix = np.argmax(gmeans)
             print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
             
             roc_auc = auc(fpr, tpr)
             plt.title('Receiver Operating Characteristic')
             plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-            pyplot.scatter(fpr[ix], tpr[ix], marker='o', color='black', label='Best')
+            plt.scatter(fpr[ix], tpr[ix], marker='o', color='black', label='Best')
 
             plt.legend(loc = 'lower right')
             plt.plot([0, 1], [0, 1],'r--')
