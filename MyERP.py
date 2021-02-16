@@ -89,6 +89,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import auc
 from sklearn.metrics import roc_curve
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 from datetime import datetime
 
@@ -116,10 +117,14 @@ def swapOnesAndZeroes(labels):
 class ERPExperiment():
     def __init__(self):
     # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
+        std_scaler = StandardScaler()
+
         [data, labels] = getDataAndLabels()
         labels = swapOnesAndZeroes(labels)
         X = data *1000 # format is in (channels, samples, trials)
         y = labels
+        
+        X = std_scaler.fit_transform(X)
 
         self.chans, self.samples, self.trials, self.kernels = channelsSamplesTrialKernels(data)
         # chans, samples, trials, kernels = channelsSamplesTrialKernels(data)
