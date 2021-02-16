@@ -215,14 +215,14 @@ class ERPExperiment():
         print('epochs', epochs)
         print('batchSize', batchSize)
 
-        # model = EEGNet(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
-        #             dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
-        #             dropoutType = 'Dropout')
+        model = EEGNet(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
+                    dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
+                    dropoutType = 'Dropout')
         
         # model = DeepConvNet(nb_classes=getNumClasses(), Chans=self.chans, Samples=self.samples, dropoutRate=dropoutRate)
         
-        model = EEGNet_old(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
-            dropoutRate = dropoutRate)
+        # model = EEGNet_old(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
+        #     dropoutRate = dropoutRate)
 
 
         optimizer = Adam(lr=learningRate)
