@@ -72,7 +72,7 @@ import mne
 from mne import io
 from mne.datasets import sample
 
-from EEGModels import EEGNet
+from EEGModels import EEGNet, DeepConvNet
 
 from tensorflow import py_func, double
 
@@ -215,9 +215,12 @@ class ERPExperiment():
         print('epochs', epochs)
         print('batchSize', batchSize)
 
-        model = EEGNet(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
-                    dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
-                    dropoutType = 'Dropout')
+        # model = EEGNet(nb_classes = getNumClasses(), Chans = self.chans, Samples = self.samples, 
+        #             dropoutRate = dropoutRate, kernLength = kernLength, F1 = F1, D = D, F2 = F2, 
+        #             dropoutType = 'Dropout')
+        
+        model = DeepConvNet(nb_classes=getNumClasses(), Chans=self.chans, Samples=self.samples, dropoutRate=dropoutRate)
+        
 
         optimizer = Adam(lr=learningRate)
 
