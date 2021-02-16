@@ -65,7 +65,7 @@ def transformLabels(labels):
 
 def transformData(data):
     data = takeOnlyCertainChannels(data)
-    # data = downSample(data)
+    data = downSample(data)
     # data = takeSubset(data)
     return data
 
