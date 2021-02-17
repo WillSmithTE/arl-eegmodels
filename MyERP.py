@@ -98,7 +98,7 @@ plt.switch_backend('agg')
 
 from util import read, save
 
-from getDataAndLabels1Subj1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 def getClassWeights(arg):
     return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(arg), arg)))
@@ -142,7 +142,7 @@ class ERPExperiment():
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
         
-        # X = l1Normalise(X)
+        X = l1Normalise(X)
 
         self.X_train,X_other,self.y_train,y_other=train_test_split(X,y,test_size=0.5,stratify=y)
         self.X_validate,self.X_test,self.y_validate,self.y_test=train_test_split(X_other,y_other,test_size=0.5,stratify=y_other)
