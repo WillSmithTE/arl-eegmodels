@@ -1,5 +1,5 @@
 % load 'Subject_B_Test.mat' % load data file
- load 'erp1.mat'
+ load 'allSubjsBalanced.mat'
 % % convert to double precision
  Signal=double(data);
 % StimulusType=double(StimulusType);
@@ -11,7 +11,7 @@ Filtered_signal=zeros(32, 231, 19215);
 
 figure;
 % for char=1:100   % 5340
-for char=1:19215   % 5340
+for char=1:2400   % 5340
 
 %     for chan=1:64  % 56
     for chan=1:32  % 56
@@ -31,7 +31,7 @@ for char=1:19215   % 5340
     end
 end
 
-% save('filtered_erp1_0.5_20', 'Filtered_signal')
+save('filtered_all_balanced_0.5_20', 'Filtered_signal')
 %  Signal=Filtered_signal;
 %  Flashing=double(Flashing);
 %  StimulusCode=double(StimulusCode);
