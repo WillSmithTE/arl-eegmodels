@@ -52,7 +52,7 @@ def getDataAndLabels():
 import scipy.io
 
 def getFilteredData():
-    return scipy.io.loadmat('allSubjsBalanced.mat')['Filtered_signal']
+    return scipy.io.loadmat('allSubjsBalanced.mat')['data']
 
 def channelsSamplesTrialKernels(data):
     return data.shape[0], data.shape[1], data.shape[2], 1
