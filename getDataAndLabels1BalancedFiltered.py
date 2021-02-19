@@ -29,10 +29,14 @@ def getMatFile(dir, index, dataOrLabels):
 
 def doStuff(dir, index, data, labels):
     print('reading file ', dir, index)
+    labelsToAdd = getLabels(dir, index)
+    lenLabels = len(labelsToAdd)
+    labelsToAdd = np.append(labelsToAdd[0:80], labelsToAdd[lenLabels-80:lenLabels])
+    
     if labels is None:
-        labels = getLabels(dir, index)
+        labels = labelsToAdd
     else:
-        labels = np.concatenate([labels, getLabels(dir, index)])
+        labels = np.concatenate([labels, labelsToAdd])
     return [data, labels]
 
 def getDataAndLabels():
