@@ -1,28 +1,20 @@
-% load 'Subject_B_Test.mat' % load data file
- load 'allSubjsBalanced.mat'
-% % convert to double precision
+ load 'data.mat'
  Signal=double(data);
-% StimulusType=double(StimulusType);
 
-% Filtered_signal=zeros(100,7794,64);
-Filtered_signal=zeros(32, 231, 19215);
-
-%Filtered_signal=zeros(5340,684,56);
+ Filtered_signal=zeros(32, 231, 19215);
 
 figure;
-% for char=1:100   % 5340
-for char=1:2400   % 5340
+for char=1:19215
 
-%     for chan=1:64  % 56
-    for chan=1:32  % 56
+    for chan=1:32
 
-        x11=Signal(chan,:,char);  %Signals
+        x11=Signal(chan,:,char);
         
         disp([char,chan]);
 
         sampleRate = 256; % Hz
         lowEnd = 0.5; % Hz
-        highEnd = 20; % Hz
+        highEnd = 30; % Hz
         filterOrder = 2; 
         [b, a] = butter(filterOrder, [lowEnd highEnd]/(sampleRate/2)); % Generate filter coefficients
         Filtered_signal(chan,:,char) = filtfilt(b, a, x11); % Apply filter to data    
@@ -31,8 +23,4 @@ for char=1:2400   % 5340
     end
 end
 
-save('filtered_all_balanced_0.5_20', 'Filtered_signal')
-%  Signal=Filtered_signal;
-%  Flashing=double(Flashing);
-%  StimulusCode=double(StimulusCode);
-% StimulusType=double(StimulusType);
+save('filtered', 'Filtered_signal')

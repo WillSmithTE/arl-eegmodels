@@ -129,7 +129,13 @@ def l1Normalise(data):
 
 class ERPExperiment():
     def __init__(self):
-    # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
+        # get the data and put it on the 
+        # class so we don't have to get it 
+        # for every run of the experiment
+        self.initialiseData()
+        
+    def initialiseData(self):
+            # extract raw data. scale by 1000 due to scaling sensitivity in deep learning
 
         [data, labels] = getDataAndLabels()
         labels = swapOnesAndZeroes(labels)
@@ -173,7 +179,7 @@ class ERPExperiment():
         print(self.X_test.shape[0], 'test samples')
 
         print("chans:", self.chans, "samples:", self.samples)
-        
+
     def multiTrainAndPredict(
         self,
         numberExperiments = 2,
