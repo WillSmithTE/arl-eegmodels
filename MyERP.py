@@ -98,7 +98,7 @@ plt.switch_backend('agg')
 
 from util import read, save
 
-from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Subj1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 def getClassWeights(data):
     return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(data), data)))
@@ -286,21 +286,10 @@ class ERPExperiment():
         if getNumClasses() == 2:
             roc_auc = roc_auc_score(self.y_test, preds)
             
-            print('roc_auc_score', roc_auc)
-
-            probsConverted = probs[:,1]
-            fpr, tpr, thresholds = roc_curve(self.y_test, probsConverted)
-            
-            gmeans = np.sqrt(tpr * (1-fpr))
-            # locate the index of the largest g-mean
-            ix = np.argmax(gmeans)
-            print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
-            
+            fpr, tpr, threshold = roc_curve(self.y_test, preds)
             roc_auc = auc(fpr, tpr)
             plt.title('Receiver Operating Characteristic')
             plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-            plt.scatter(fpr[ix], tpr[ix], marker='o', color='black', label='Best')
-
             plt.legend(loc = 'lower right')
             plt.plot([0, 1], [0, 1],'r--')
             plt.xlim([0, 1])
@@ -308,6 +297,34 @@ class ERPExperiment():
             plt.ylabel('True Positive Rate')
             plt.xlabel('False Positive Rate')
             plt.savefig('roc')
+
+            print('roc_auc_score', roc_auc)
+
+        # if getNumClasses() == 2:
+        #     roc_auc = roc_auc_score(self.y_test, preds)
+            
+        #     print('roc_auc_score', roc_auc)
+
+        #     probsConverted = probs[:,1]
+        #     fpr, tpr, thresholds = roc_curve(self.y_test, probsConverted)
+            
+        #     gmeans = np.sqrt(tpr * (1-fpr))
+        #     # locate the index of the largest g-mean
+        #     ix = np.argmax(gmeans)
+        #     print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
+            
+        #     roc_auc = auc(fpr, tpr)
+        #     plt.title('Receiver Operating Characteristic')
+        #     plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+        #     plt.scatter(fpr[ix], tpr[ix], marker='o', color='black', label='Best')
+
+        #     plt.legend(loc = 'lower right')
+        #     plt.plot([0, 1], [0, 1],'r--')
+        #     plt.xlim([0, 1])
+        #     plt.ylim([0, 1])
+        #     plt.ylabel('True Positive Rate')
+        #     plt.xlabel('False Positive Rate')
+        #     plt.savefig('roc')
 
         print('confusion_matrix')
         print(confusion_matrix(self.y_test, preds))
