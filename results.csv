@@ -15,3 +15,4 @@ date,epochs,dataset,batchSize,sampleRate,kernLength,dropout,learning,roc_auc,acc
 21/02/21,300,all,80,231,115,0.5,0.001,0.8202094400905912,0.7505201831044528,8,2,,no downsampling & all channels random shuffle with filter
 21/02/21,300,all,80,128,64,0.5,0.001,0.7376863786024415,0.7028714107365793,8,2,,downsample & all channels random shuffle with filter
 21/02/21,300,all,80,128,64,0.5,0.001,0.8059028208071725,0.7288805659592177,8,2,,downsample & all channels random shuffle with filter
+21/02/21,300,all,80,231,115,0.5,0.001,0.6426861342984049,0.5765709529754474,8,2
