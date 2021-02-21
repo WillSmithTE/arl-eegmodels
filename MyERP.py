@@ -98,7 +98,7 @@ plt.switch_backend('agg')
 
 from util import read, save
 
-from getDataAndLabels1 import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
+from getDataAndLabels1Filtered import getDataAndLabels, channelsSamplesTrialKernels, getConfusionMatrixNames, getNumClasses
 
 def getClassWeights(data):
     return dict(enumerate(class_weight.compute_class_weight('balanced', np.unique(data), data)))
