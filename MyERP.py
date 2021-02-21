@@ -148,7 +148,7 @@ class ERPExperiment():
     #pylint: disable=too-many-function-args
         X = X.reshape(self.trials, self.kernels, self.chans, self.samples)
         
-        X = l1Normalise(X)
+        X = zScoreNormalise(X)
 
         self.X_train,X_other,self.y_train,y_other=train_test_split(X,y,test_size=0.5,stratify=y)
         self.X_validate,self.X_test,self.y_validate,self.y_test=train_test_split(X_other,y_other,test_size=0.5,stratify=y_other)
